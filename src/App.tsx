@@ -8,17 +8,23 @@ import Workout from './containers/ActiveWorkout';
 import { WorkoutList } from './containers/WorkoutList';
 import { History } from './containers/History';
 import BottomNav from './components/BottomNav';
-import { Container, Grid, Paper } from '@material-ui/core';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
+
+const theme = createMuiTheme({
+  palette: {
+    type: 'dark',
+  },
+});
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <CssBaseline />
+      <MuiThemeProvider theme={theme}>
 
-      <HashRouter>
-        <Paper square>
+        <CssBaseline />
 
+        <HashRouter>
           <Switch>
             <Route path="/workouts" component={WorkoutList} />
             <Route path="/history" component={History} />
@@ -33,11 +39,10 @@ const App: React.FC = () => {
             </Route>
 
           </Switch>
-        </Paper>
 
-
-        <BottomNav />
-      </HashRouter>
+          <BottomNav />
+        </HashRouter>
+      </MuiThemeProvider>
 
     </div >
   );
