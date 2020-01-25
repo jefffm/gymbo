@@ -5,28 +5,41 @@ import { Switch, Route, HashRouter, Redirect } from "react-router-dom"
 import ConfigurationPanel from './containers/ConfigurationPanel'
 import './App.css';
 import Workout from './containers/ActiveWorkout';
+import { WorkoutList } from './containers/WorkoutList';
+import { History } from './containers/History';
+import BottomNav from './components/BottomNav';
+import { Container, Grid, Paper } from '@material-ui/core';
 
 
 const App: React.FC = () => {
   return (
     <div className="App">
+      <CssBaseline />
+
       <HashRouter>
-        <CssBaseline />
-        <Switch>
+        <Paper square>
 
-          <Route path="/config" component={ConfigurationPanel} />
-          <Route
-            path="/workout/:workoutId"
-            render={(props) => <Workout workoutId={props.match.params.workoutId} />}
-          />
+          <Switch>
+            <Route path="/workouts" component={WorkoutList} />
+            <Route path="/history" component={History} />
+            <Route path="/settings" component={ConfigurationPanel} />
+            <Route
+              path="/workout/:workoutId"
+              render={(props) => <Workout workoutId={props.match.params.workoutId} />}
+            />
 
-          <Route path="/">
-            <Redirect to="/program" />
-          </Route>
+            <Route path="/">
+              <Redirect to="/workouts" />
+            </Route>
 
-        </Switch>
+          </Switch>
+        </Paper>
+
+
+        <BottomNav />
       </HashRouter>
-    </div>
+
+    </div >
   );
 }
 
