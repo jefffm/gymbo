@@ -1,0 +1,10 @@
+(A) Bottom navigation for settings, workoutlist, workout, history
+(A) hardcoded workout displays in workout list
+(A) hardcoded workout can be used as a workout
+(A) sets display in active workout with unstructured excercise name, weight (or blank), reps, rpe, done/notdone
+(B) done/notdone toggles logging the excercise
+(B) sets can be warmup, drop sets, failed sets, or normal
+(B) workouts imported by csv
+(C) workout editor UI - create new workout, add exercise, add sets, save as template
+(D) show recent history for current set
+(F) Dark theme
