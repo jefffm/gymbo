@@ -1,32 +1,66 @@
 import React, { Component } from 'react'
 import { AppState } from '../App.test';
-import { Paper, Grid } from '@material-ui/core';
+import { Grid, Button, Theme, withStyles, Card, WithStyles } from '@material-ui/core';
+import WorkoutSummary from '../components/WorkoutSummary';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 
-interface WorkoutListProps {
+const styles = (theme: Theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    button: {
+        padding: theme.spacing(5)
+    },
+    workout: {
+        padding: theme.spacing(2),
+        color: theme.palette.text.secondary,
+    },
+});
+
+export interface WorkoutListProps extends RouteComponentProps<{}> {
 }
 
-export class WorkoutList extends Component<WorkoutListProps> {
-    render() {
-        return <div>
-            <Grid container direction="row" justify="flex-start" alignItems="stretch">
-                <Grid item sm={6}>
-                    <Paper>
-                        WORKOUT LIST
-                    </Paper>
-                </Grid>
+type PropsWithStyles = WorkoutListProps & WithStyles<'root' | 'button' | 'workout'>
 
-                <Grid item sm={6}>
-                    <Paper>
-                        LISTING WORKOUTS
-                    </Paper>
+const WorkoutList = (props: PropsWithStyles) => {
+    const classes = props.classes
+    return <div>
+        <Grid container
+            className={classes.root}
+            direction="row"
+            justify="flex-start"
+            alignItems="stretch">
+
+            <Grid item xs={12} className={classes.button} >
+                <Grid container
+                    direction="row"
+                    justify="center"
+                    alignItems="center">
+                    <Button> Create New Workout </Button>
                 </Grid>
             </Grid>
-        </div>
-    }
+
+            <Grid item xs={12} sm={6} className={classes.workout} >
+                <WorkoutSummary />
+            </Grid>
+
+            <Grid item xs={12} sm={6} className={classes.workout} >
+                <WorkoutSummary />
+            </Grid>
+
+            <Grid item xs={12} sm={6} className={classes.workout} >
+                <WorkoutSummary />
+            </Grid>
+        </Grid>
+    </div>
 }
 
 const mapStateToProps = (state: AppState) => ({
 })
 
-export default connect(mapStateToProps)(WorkoutList)
+export default withRouter(
+    connect(mapStateToProps)(
+        withStyles(styles)(WorkoutList)
+    )
+)

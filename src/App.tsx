@@ -5,7 +5,7 @@ import { Switch, Route, HashRouter, Redirect } from "react-router-dom"
 import ConfigurationPanel from './containers/ConfigurationPanel'
 import './App.css';
 import Workout from './containers/ActiveWorkout';
-import { WorkoutList } from './containers/WorkoutList';
+import WorkoutList from './containers/WorkoutList';
 import { History } from './containers/History';
 import BottomNav from './components/BottomNav';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -13,7 +13,11 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: "dark",
+    background: {
+      default: "#000000",
+      paper: "#000000"
+    }
   },
 });
 
