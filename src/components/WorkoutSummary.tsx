@@ -13,7 +13,6 @@ interface WorkoutSummaryProps {
 }
 
 function WorkoutSummary(props: WorkoutSummaryProps & WithStyles<'item'>) {
-    console.log(props.classes)
     return (
         <div>
             <Box border={1} className={props.classes.item}>
