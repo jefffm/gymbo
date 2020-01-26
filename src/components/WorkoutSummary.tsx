@@ -8,7 +8,9 @@ const styles = (theme: Theme) => ({
     },
 });
 
-interface WorkoutSummaryProps { }
+interface WorkoutSummaryProps {
+    children?: React.ReactElement
+}
 
 function WorkoutSummary(props: WorkoutSummaryProps & WithStyles<'item'>) {
     console.log(props.classes)
@@ -17,22 +19,21 @@ function WorkoutSummary(props: WorkoutSummaryProps & WithStyles<'item'>) {
             <Box border={1} className={props.classes.item}>
                 <Card>
                     <Typography variant="h6">
-                        Workout Title
-                        </Typography>
+                        Placeholder Workout
+                    </Typography>
                     <CardContent>
                         <Grid
                             container
                             direction="column"
                             justify="flex-start"
                             alignItems="stretch">
-                            <Grid item> testing1 </Grid>
-                            <Grid item> testing2 </Grid>
-                            <Grid item> testing3 </Grid>
-                            <Grid item> testing4 </Grid>
+                            <Grid item> Squat 4x4 @ 8 </Grid>
+                            <Grid item> Bench 3x10 @ 7 </Grid>
+                            <Grid item> DB Row 3x15 @ 7 </Grid>
                         </Grid>
                     </CardContent>
                     <CardActions>
-                        <Button >Start Workout</Button>
+                        {props.children}
                     </CardActions>
                 </Card>
             </Box>

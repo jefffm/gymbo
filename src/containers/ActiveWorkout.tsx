@@ -24,7 +24,7 @@ class ActiveWorkout extends React.Component<WorkoutProps & RouteComponentProps> 
         return <Container>
             <Grid container direction="column" justify="flex-start" alignItems="flex-start" >
                 <Button variant="contained" onClick={() => this.props.history.goBack()}>Back</Button>
-                {}
+                This is an active workout!!!!!
             </Grid>
         </Container>
     }

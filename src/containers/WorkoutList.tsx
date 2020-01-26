@@ -4,6 +4,7 @@ import { Grid, Button, Theme, withStyles, Card, WithStyles } from '@material-ui/
 import WorkoutSummary from '../components/WorkoutSummary';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const styles = (theme: Theme) => ({
     root: {
@@ -41,19 +42,41 @@ const WorkoutList = (props: PropsWithStyles) => {
                 </Grid>
             </Grid>
 
+            {/* TODO: Pull list of workout templates \
+                and dynamically create WorkoutSummary boxes */}
             <Grid item xs={12} sm={6} className={classes.workout} >
-                <WorkoutSummary />
+                <WorkoutSummary>
+                    <Button component={Link} to="/workout/12345">
+                        Start Workout
+                    </Button>
+                </WorkoutSummary>
             </Grid>
 
             <Grid item xs={12} sm={6} className={classes.workout} >
-                <WorkoutSummary />
+                <WorkoutSummary>
+                    <Button component={Link} to="/workout/12345">
+                        Start Workout
+                    </Button>
+                </WorkoutSummary>
             </Grid>
 
             <Grid item xs={12} sm={6} className={classes.workout} >
-                <WorkoutSummary />
+                <WorkoutSummary>
+                    <Button component={Link} to="/workout/12345">
+                        Start Workout
+                    </Button>
+                </WorkoutSummary>
             </Grid>
-        </Grid>
-    </div>
+
+            <Grid item xs={12} sm={6} className={classes.workout} >
+                <WorkoutSummary>
+                    <Button component={Link} to="/workout/12345">
+                        Start Workout
+                    </Button>
+                </WorkoutSummary>
+            </Grid>
+        </Grid >
+    </div >
 }
 
 const mapStateToProps = (state: AppState) => ({
