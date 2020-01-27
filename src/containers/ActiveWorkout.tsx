@@ -17,10 +17,10 @@ const styles = (theme: Theme) => ({
         flexGrow: 1,
     },
     button: {
-        padding: theme.spacing(1)
+        marginTop: theme.spacing(1),
     },
     workout: {
-        padding: theme.spacing(2),
+        marginTop: theme.spacing(2),
         color: theme.palette.text.secondary,
     },
 });
@@ -73,27 +73,27 @@ const ActiveWorkout = (props: PropsWithStyles) => {
             <Grid item>
                 <ExerciseList>
                     <Exercise name="squats">
-                        <SetTable>
+                        <SetTable unit={"lbs"}>
                             <Set
-                                setType="normal"
+                                setType="W"
                                 prevSet="190 x 4 @ 9 on 1/2"
-                                weight="180 lbs"
+                                weight={45}
                                 reps={5}
                                 rpe={8}
                                 done={false}
                             />
                             <Set
-                                setType="normal"
+                                setType=""
                                 prevSet="190 x 4 @ 9 on 1/2"
-                                weight="180 lbs"
+                                weight={155}
                                 reps={5}
                                 rpe={8}
                                 done={false}
                             />
                             <Set
-                                setType="normal"
+                                setType=""
                                 prevSet="190 x 4 @ 9 on 1/2"
-                                weight="180 lbs"
+                                weight={180}
                                 reps={5}
                                 rpe={8}
                                 done={false}

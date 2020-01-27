@@ -11,10 +11,10 @@ const styles = (theme: Theme) => ({
         flexGrow: 1,
     },
     button: {
-        padding: theme.spacing(5)
+        marginTop: theme.spacing(2),
     },
     workout: {
-        padding: theme.spacing(2),
+        marginTop: theme.spacing(2),
         color: theme.palette.text.secondary,
     },
 });

@@ -1,4 +1,5 @@
 import React from 'react'
+import TextField from '@material-ui/core/TextField';
 import { Theme, withStyles, WithStyles, Grid, FormControlLabel, FormGroup, Checkbox, TableRow, TableCell } from '@material-ui/core'
 
 const styles = (theme: Theme) => ({
@@ -11,45 +12,24 @@ const styles = (theme: Theme) => ({
 interface SetProps {
     setType: string,  // TODO: use an enum for SetType
     prevSet: string,
-    weight: string, // TODO: use a weightObject for kg/lbs
+    weight: number,
     reps: number,
     rpe: number,
     done: boolean
 }
-/**
-            <TableCell align="left">
-                {props.setType}
-            </TableCell>
-*/
 
 function Set(props: SetProps & WithStyles<'row'>) {
     return (
         <TableRow className={props.classes.row}>
-            <TableCell size="small">
-                {props.prevSet}
-            </TableCell>
+            <TableCell> {props.setType} </TableCell>
+            <TableCell> {props.prevSet} </TableCell>
+            <TableCell align="center"> {props.weight} </TableCell>
+            <TableCell align="center"> {"x"} </TableCell>
+            <TableCell align="center"> {props.reps} </TableCell>
+            <TableCell align="center"> {"@"} </TableCell>
+            <TableCell align="center"> {props.rpe} </TableCell>
 
-            <TableCell align="right">
-              {props.weight}
-            </TableCell>
-
-            <TableCell align="right">
-              {"x"}
-            </TableCell>
-
-            <TableCell align="right">
-              {props.reps}
-            </TableCell>
-
-            <TableCell align="right">
-              {"@"}
-            </TableCell>
-
-            <TableCell align="right">
-              {props.rpe}
-            </TableCell>
-
-            <TableCell align="right">
+            <TableCell>
               <Checkbox
                   checked={props.done}
                   onChange={() => { console.log("marking set as done") }}
