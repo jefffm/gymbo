@@ -9,12 +9,15 @@ const styles = (theme: Theme) => ({
 });
 
 interface ActiveWorkoutHeaderProps {
+    title: string
+    timeElapsed: string
 }
 
 function ActiveWorkoutHeader(props: ActiveWorkoutHeaderProps & WithStyles<'item'>) {
     return (
         <div className={props.classes.item}>
-            header
+            {props.title}
+            {props.timeElapsed}
         </div >
     )
 }

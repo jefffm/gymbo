@@ -9,12 +9,13 @@ const styles = (theme: Theme) => ({
 });
 
 interface NotesProps {
+    notes: string
 }
 
 function Notes(props: NotesProps & WithStyles<'item'>) {
     return (
         <div className={props.classes.item}>
-            notes
+            {props.notes}
         </div >
     )
 }

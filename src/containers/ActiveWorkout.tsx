@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Grid, Button } from '@material-ui/core'
+import { Container, Grid, Button, WithStyles, withStyles, Theme } from '@material-ui/core'
 import { AppState } from '..';
 import { connect } from 'react-redux';
 import PlateCalculator from '../util/PlateCalculator';
@@ -12,56 +12,87 @@ import Set from '../components/workout/Set';
 import ExerciseList from '../components/workout/ExerciseList';
 import Exercise from '../components/workout/Exercise';
 
-interface WorkoutProps {
+const styles = (theme: Theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    button: {
+        padding: theme.spacing(1)
+    },
+    workout: {
+        padding: theme.spacing(2),
+        color: theme.palette.text.secondary,
+    },
+});
+
+
+interface WorkoutProps extends RouteComponentProps<{}> {
     workoutId: string
     dispatch: any
     weightSettings: IWeightSettings
 }
 
+type PropsWithStyles = WorkoutProps & WithStyles<'root' | 'button' | 'workout'>
+
 // TODO: ElevateAppBar with back button
 // TODO: Timer
 
-class ActiveWorkout extends React.Component<WorkoutProps & RouteComponentProps> {
-    render = (): React.ReactNode => {
-        const plateCalculator = new PlateCalculator(
-            {
-                availablePlates: this.props.weightSettings.availablePlates,
-                barWeight: this.props.weightSettings.barWeight
-            }
-        )
+const ActiveWorkout = (props: PropsWithStyles) => {
+    const plateCalculator = new PlateCalculator(
+        {
+            availablePlates: props.weightSettings.availablePlates,
+            barWeight: props.weightSettings.barWeight
+        }
+    )
 
-        return <Container>
-            <Grid container direction="column" justify="center" alignItems="stretch" >
-                <Button variant="contained" onClick={() => this.props.history.goBack()}>Back</Button>
+    return <Container>
+        <Grid container
+            direction="column"
+            justify="center"
+            alignItems="stretch" >
 
-                <Grid item>
-                    <ActiveWorkoutHeader />
-                </Grid>
+            <Button
+                className={props.classes.button}
+                onClick={() => props.history.goBack()}>
+                Back
+            </Button>
 
-                <Grid item>
-                    <Notes />
-                </Grid>
-
-                <Grid item>
-                    <ExerciseList>
-                        <Exercise name="squats">
-                            <SetTable>
-                                <Set />
-                                <Set />
-                                <Set />
-                            </SetTable>
-                            <Button>Add Set</Button>
-                        </Exercise>
-                        <Button>Add Exercise</Button>
-                    </ExerciseList>
-                </Grid>
+            <Grid item>
+                <ActiveWorkoutHeader
+                    title={"Workout Name"}
+                    timeElapsed={"00:35:12"}
+                />
             </Grid>
-        </Container>
-    }
+
+            <Grid item>
+                <Notes
+                    notes={"These are some workout notes"}
+                />
+            </Grid>
+
+            <Grid item>
+                <ExerciseList>
+                    <Exercise name="squats">
+                        <SetTable>
+                            <Set />
+                            <Set />
+                            <Set />
+                        </SetTable>
+                        <Button>Add Set</Button>
+                    </Exercise>
+                    <Button>Add Exercise</Button>
+                </ExerciseList>
+            </Grid>
+        </Grid>
+    </Container>
 }
 
 const mapStateToProps = (state: AppState) => ({
     weightSettings: state.weightSettings,
 })
 
-export default connect(mapStateToProps)(withRouter(ActiveWorkout))
+export default withRouter(
+    connect(mapStateToProps)(
+        withStyles(styles)(ActiveWorkout)
+    )
+)
