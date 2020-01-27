@@ -1,10 +1,16 @@
-(A) Bottom navigation for settings, workoutlist, workout, history
 (A) hardcoded workout displays in workout list
 (A) hardcoded workout can be used as a workout
-(A) sets display in active workout with unstructured excercise name, weight (or blank), reps, rpe, done/notdone
-(B) done/notdone toggles logging the excercise
-(B) sets can be warmup, drop sets, failed sets, or normal
 (B) workouts imported by csv
+(B) Global way to resume an active workout (snackbar...?)
+(B) ElevatedAppBar for back button and rest timer
 (C) workout editor UI - create new workout, add exercise, add sets, save as template
 (D) show recent history for current set
-(F) Dark theme
+(D) RPE/weight calculator
+(E) Use plate calculator to show weights
+(E) Use primary/secondary colors to highlight bottom nav position
+(F) Liftagotchi - Low res pixelart avatar. Wants to work out, rests during rest timers, animations scale with RPE or % of 1rm
+x (A) 2020-01-27 Bottom navigation for settings, workoutlist, workout, history
+x (A) 2020-01-27 sets display in active workout with unstructured excercise name, weight (or blank), reps, rpe, done/notdone
+x (B) 2020-01-27 done/notdone toggles logging the excercise
+x (B) 2020-01-27 sets can be warmup, drop sets, failed sets, or normal
+x (F) Dark theme

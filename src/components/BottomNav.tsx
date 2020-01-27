@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { BottomNavigation, BottomNavigationAction, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import HistoryIcon from '@material-ui/icons/History';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100%',
             position: 'fixed',
         },
-        toolbar: theme.mixins.toolbar,
+        toolbar: theme.mixins.toolbar as any,  // TODO: fix type hint
     }),
 );
 
