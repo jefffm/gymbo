@@ -4,14 +4,13 @@ import { Theme, withStyles, WithStyles, Grid, FormControlLabel, FormGroup, Check
 
 const styles = (theme: Theme) => ({
     row: {
-       padding: theme.spacing(1),
-       color: theme.palette.text.secondary,
+        padding: theme.spacing(1),
+        color: theme.palette.text.secondary,
     },
 });
 
 interface SetProps {
     setType: string,  // TODO: use an enum for SetType
-    prevSet: string,
     weight: number,
     reps: number,
     rpe: number,
@@ -22,7 +21,6 @@ function Set(props: SetProps & WithStyles<'row'>) {
     return (
         <TableRow className={props.classes.row}>
             <TableCell> {props.setType} </TableCell>
-            <TableCell> {props.prevSet} </TableCell>
             <TableCell align="center"> {props.weight} </TableCell>
             <TableCell align="center"> {"x"} </TableCell>
             <TableCell align="center"> {props.reps} </TableCell>
@@ -30,10 +28,10 @@ function Set(props: SetProps & WithStyles<'row'>) {
             <TableCell align="center"> {props.rpe} </TableCell>
 
             <TableCell>
-              <Checkbox
-                  checked={props.done}
-                  onChange={() => { console.log("marking set as done") }}
-              />
+                <Checkbox
+                    checked={props.done}
+                    onChange={() => { console.log("marking set as done") }}
+                />
             </TableCell>
         </TableRow>
     )

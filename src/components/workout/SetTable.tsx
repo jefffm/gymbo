@@ -7,7 +7,7 @@ const styles = (theme: Theme) => ({
         color: theme.palette.text.secondary,
     },
     table: {
-       minWidth: 350,
+        minWidth: 350,
     }
 });
 
@@ -19,21 +19,20 @@ interface SetTableProps {
 function SetTable(props: SetTableProps & WithStyles<'item' | 'table'>) {
     return (
         <div className={props.classes.item}>
-          <Table aria-label="set table" size="small" className={props.classes.table} padding="none">
-          <TableHead>
-          <TableRow>
-            <TableCell>Type</TableCell>
-            <TableCell>Prev</TableCell>
-            <TableCell>{props.unit}</TableCell>
-            <TableCell></TableCell>
-            <TableCell>Reps</TableCell>
-            <TableCell></TableCell>
-            <TableCell>RPE</TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-              {props.children}
-          </Table>
+            <Table aria-label="set table" size="small" className={props.classes.table} padding="none">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Type</TableCell>
+                        <TableCell>{props.unit}</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell>Reps</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell>RPE</TableCell>
+                        <TableCell></TableCell>
+                    </TableRow>
+                </TableHead>
+                {props.children}
+            </Table>
         </div >
     )
 }

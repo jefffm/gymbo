@@ -76,7 +76,6 @@ const ActiveWorkout = (props: PropsWithStyles) => {
                         <SetTable unit={"lbs"}>
                             <Set
                                 setType="W"
-                                prevSet="190 x 4 @ 9 on 1/2"
                                 weight={45}
                                 reps={5}
                                 rpe={8}
@@ -84,7 +83,6 @@ const ActiveWorkout = (props: PropsWithStyles) => {
                             />
                             <Set
                                 setType=""
-                                prevSet="190 x 4 @ 9 on 1/2"
                                 weight={155}
                                 reps={5}
                                 rpe={8}
@@ -92,7 +90,6 @@ const ActiveWorkout = (props: PropsWithStyles) => {
                             />
                             <Set
                                 setType=""
-                                prevSet="190 x 4 @ 9 on 1/2"
                                 weight={180}
                                 reps={5}
                                 rpe={8}
