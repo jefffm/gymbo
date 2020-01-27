@@ -10,12 +10,12 @@ const styles = (theme: Theme) => ({
 
 interface ExerciseProps {
     name: string
-    children?: React.ReactElement
+    children: React.ReactElement[]
 }
 
 function Exercise(props: ExerciseProps & WithStyles<'item'>) {
     return (
-        <div>
+        <div className={props.classes.item}>
             <Box border={1}>
                 Exercise: {props.name}
                 {props.children}

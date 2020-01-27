@@ -14,7 +14,7 @@ interface SetTableProps {
 
 function SetTable(props: SetTableProps & WithStyles<'item'>) {
     return (
-        <div>
+        <div className={props.classes.item}>
             <Box border={1}>
                 setTable
             {props.children}

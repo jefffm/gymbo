@@ -13,7 +13,7 @@ interface TimerProps {
 
 function Timer(props: TimerProps & WithStyles<'item'>) {
     return (
-        <div>
+        <div className={props.classes.item}>
             timer
         </div >
     )

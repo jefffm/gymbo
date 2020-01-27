@@ -13,7 +13,7 @@ interface ActiveWorkoutHeaderProps {
 
 function ActiveWorkoutHeader(props: ActiveWorkoutHeaderProps & WithStyles<'item'>) {
     return (
-        <div>
+        <div className={props.classes.item}>
             header
         </div >
     )

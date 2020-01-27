@@ -13,7 +13,7 @@ interface NotesProps {
 
 function Notes(props: NotesProps & WithStyles<'item'>) {
     return (
-        <div>
+        <div className={props.classes.item}>
             notes
         </div >
     )

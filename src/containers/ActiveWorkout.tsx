@@ -49,8 +49,8 @@ class ActiveWorkout extends React.Component<WorkoutProps & RouteComponentProps> 
                                 <Set />
                                 <Set />
                                 <Set />
-                                <Button>Add Set</Button>
                             </SetTable>
+                            <Button>Add Set</Button>
                         </Exercise>
                         <Button>Add Exercise</Button>
                     </ExerciseList>

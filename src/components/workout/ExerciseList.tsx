@@ -14,7 +14,7 @@ interface ExerciseListProps {
 
 function ExerciseList(props: ExerciseListProps & WithStyles<'item'>) {
     return (
-        <div>
+        <div className={props.classes.item}>
             <Box border={1}>
                 exercise list
             {props.children}

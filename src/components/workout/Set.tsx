@@ -13,7 +13,7 @@ interface SetProps {
 
 function Set(props: SetProps & WithStyles<'item'>) {
     return (
-        <div>
+        <div className={props.classes.item}>
             W (155x5@6 on 12/2) 155lbs x 5 @ 8 [ ]
         </div >
     )
