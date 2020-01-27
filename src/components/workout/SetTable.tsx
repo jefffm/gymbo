@@ -1,24 +1,26 @@
 import React from 'react'
-import { Theme, withStyles, WithStyles, Box } from '@material-ui/core'
+import { Theme, withStyles, WithStyles, Box, Table } from '@material-ui/core'
 
 const styles = (theme: Theme) => ({
     item: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(0),
         color: theme.palette.text.secondary,
     },
+ table: {
+       minWidth: 350,
+    }
 });
 
 interface SetTableProps {
-    children: React.ReactElement[]
+    children: React.ReactElement[] | React.ReactElement
 }
 
-function SetTable(props: SetTableProps & WithStyles<'item'>) {
+function SetTable(props: SetTableProps & WithStyles<'item' | 'table'>) {
     return (
         <div className={props.classes.item}>
-            <Box border={1}>
-                setTable
-            {props.children}
-            </Box>
+          <Table aria-label="set table" size="small" className={props.classes.table} padding="none">
+              {props.children}
+          </Table>
         </div >
     )
 }

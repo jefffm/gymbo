@@ -3,19 +3,19 @@ import { Grid, Box, Card, Theme, withStyles, WithStyles, CardContent, CardAction
 
 const styles = (theme: Theme) => ({
     item: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(0),
         color: theme.palette.text.secondary,
     },
 });
 
 interface ExerciseListProps {
-    children: React.ReactElement[]
+    children: React.ReactElement[] | React.ReactElement
 }
 
 function ExerciseList(props: ExerciseListProps & WithStyles<'item'>) {
     return (
         <div className={props.classes.item}>
-            <Box border={1}>
+            <Box border={1} borderRadius={16}>
                 exercise list
             {props.children}
             </Box>

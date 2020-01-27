@@ -3,7 +3,7 @@ import { Theme, withStyles, WithStyles } from '@material-ui/core'
 
 const styles = (theme: Theme) => ({
     item: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(1),
         color: theme.palette.text.secondary,
     },
 });

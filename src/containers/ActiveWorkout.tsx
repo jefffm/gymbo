@@ -74,9 +74,30 @@ const ActiveWorkout = (props: PropsWithStyles) => {
                 <ExerciseList>
                     <Exercise name="squats">
                         <SetTable>
-                            <Set />
-                            <Set />
-                            <Set />
+                            <Set
+                                setType="normal"
+                                prevSet="190 x 4 @ 9 on 1/2"
+                                weight="180 lbs"
+                                reps={5}
+                                rpe={8}
+                                done={false}
+                            />
+                            <Set
+                                setType="normal"
+                                prevSet="190 x 4 @ 9 on 1/2"
+                                weight="180 lbs"
+                                reps={5}
+                                rpe={8}
+                                done={false}
+                            />
+                            <Set
+                                setType="normal"
+                                prevSet="190 x 4 @ 9 on 1/2"
+                                weight="180 lbs"
+                                reps={5}
+                                rpe={8}
+                                done={false}
+                            />
                         </SetTable>
                         <Button>Add Set</Button>
                     </Exercise>

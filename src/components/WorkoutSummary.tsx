@@ -15,7 +15,7 @@ interface WorkoutSummaryProps {
 function WorkoutSummary(props: WorkoutSummaryProps & WithStyles<'item'>) {
     return (
         <div>
-            <Box border={1} className={props.classes.item}>
+            <Box border={1} borderRadius={16} className={props.classes.item}>
                 <Card>
                     <Typography variant="h6">
                         Placeholder Workout

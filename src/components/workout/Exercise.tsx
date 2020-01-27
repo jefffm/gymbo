@@ -3,7 +3,7 @@ import { Theme, withStyles, WithStyles, Box } from '@material-ui/core'
 
 const styles = (theme: Theme) => ({
     item: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(0),
         color: theme.palette.text.secondary,
     },
 });
@@ -16,7 +16,7 @@ interface ExerciseProps {
 function Exercise(props: ExerciseProps & WithStyles<'item'>) {
     return (
         <div className={props.classes.item}>
-            <Box border={1}>
+            <Box border={1} borderRadius={16}>
                 Exercise: {props.name}
                 {props.children}
             </Box>
