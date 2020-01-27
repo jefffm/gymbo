@@ -83,6 +83,12 @@ const ActiveWorkout = (props: PropsWithStyles) => {
                     <Button>Add Exercise</Button>
                 </ExerciseList>
             </Grid>
+
+            <Button
+                className={props.classes.button}
+                onClick={() => console.log("Cancelling workout " + props.workoutId)}>
+                Cancel Workout
+            </Button>
         </Grid>
     </Container>
 }
