@@ -5,10 +5,14 @@ import WorkoutSummary from '../components/WorkoutSummary';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+
 
 const styles = (theme: Theme) => ({
     root: {
         flexGrow: 1,
+        padding: theme.spacing(1),
     },
     button: {
         marginTop: theme.spacing(2),
@@ -17,12 +21,21 @@ const styles = (theme: Theme) => ({
         marginTop: theme.spacing(2),
         color: theme.palette.text.secondary,
     },
+    fab: {
+        margin: 0,
+        marginRight: theme.spacing(1),
+        top: 'auto',
+        right: 20,
+        bottom: 20,
+        left: 'auto',
+        position: 'fixed' as any
+    }
 });
 
 export interface WorkoutListProps extends RouteComponentProps<{}> {
 }
 
-type PropsWithStyles = WorkoutListProps & WithStyles<'root' | 'button' | 'workout'>
+type PropsWithStyles = WorkoutListProps & WithStyles<'root' | 'button' | 'workout' | 'fab'>
 
 const WorkoutList = (props: PropsWithStyles) => {
     const classes = props.classes
@@ -32,15 +45,6 @@ const WorkoutList = (props: PropsWithStyles) => {
             direction="row"
             justify="flex-start"
             alignItems="stretch">
-
-            <Grid item xs={12} className={classes.button} >
-                <Grid container
-                    direction="row"
-                    justify="center"
-                    alignItems="center">
-                    <Button> Create New Workout </Button>
-                </Grid>
-            </Grid>
 
             {/* TODO: Pull list of workout templates \
                 and dynamically create WorkoutSummary boxes */}
@@ -76,6 +80,14 @@ const WorkoutList = (props: PropsWithStyles) => {
                 </WorkoutSummary>
             </Grid>
         </Grid >
+        <Fab
+            color="primary"
+            variant="extended"
+            aria-label="create workout"
+            className={classes.fab}>
+            <AddIcon />
+            Create new workout
+        </Fab>
     </div >
 }
 
