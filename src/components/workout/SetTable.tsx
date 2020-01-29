@@ -1,5 +1,5 @@
 import React from 'react'
-import { Theme, withStyles, WithStyles, Box, Table, TableCell, TableHead, TableRow, FormControl, FormGroup, FormLabel } from '@material-ui/core'
+import { Theme, withStyles, WithStyles, Box, Table, TableCell, TableHead, TableRow, FormControl, FormGroup, FormLabel, Container } from '@material-ui/core'
 
 const styles = (theme: Theme) => ({
     item: {
@@ -18,12 +18,14 @@ interface SetTableProps {
 function SetTable(props: SetTableProps & WithStyles<'item' | 'table'>) {
     return (
         <div className={props.classes.item}>
-            <FormControl component="fieldset">
-                <FormGroup>
-                    {props.children}
-                </FormGroup>
-            </FormControl>
-        </div >
+            <Container>
+                <FormControl component="fieldset">
+                    <FormGroup>
+                        {props.children}
+                    </FormGroup>
+                </FormControl>
+            </Container>
+        </div>
     )
 }
 

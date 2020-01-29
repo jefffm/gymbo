@@ -7,8 +7,9 @@ import './App.css';
 import Workout from './containers/ActiveWorkout';
 import WorkoutList from './containers/WorkoutList';
 import { History } from './containers/History';
-import BottomNav from './components/BottomNav';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import ElevateAppBar from './components/ElevateAppBar';
+import Drawer from './components/Drawer';
 
 
 const theme = createMuiTheme({
@@ -16,8 +17,8 @@ const theme = createMuiTheme({
     type: "dark",
     background: {
       default: "#000000",
-      paper: "#000000"
-    }
+      paper: "#121212",
+    },
   },
 });
 
@@ -29,22 +30,23 @@ const App: React.FC = () => {
         <CssBaseline />
 
         <HashRouter>
-          <Switch>
-            <Route path="/workouts" component={WorkoutList} />
-            <Route path="/history" component={History} />
-            <Route path="/settings" component={ConfigurationPanel} />
-            <Route
-              path="/workout/:workoutId"
-              render={(props) => <Workout workoutId={props.match.params.workoutId} />}
-            />
+          <ElevateAppBar title={() => "Gymbo"} menuButton={Drawer}>
+            <div>
+              <Switch>
+                <Route path="/workouts" component={WorkoutList} />
+                <Route path="/history" component={History} />
+                <Route path="/settings" component={ConfigurationPanel} />
+                <Route
+                  path="/workout/:workoutId"
+                  render={(props) => <Workout workoutId={props.match.params.workoutId} />}
+                />
+                <Route path="/">
+                  <Redirect to="/workouts" />
+                </Route>
 
-            <Route path="/">
-              <Redirect to="/workouts" />
-            </Route>
-
-          </Switch>
-
-          <BottomNav />
+              </Switch>
+            </div>
+          </ElevateAppBar>
         </HashRouter>
       </MuiThemeProvider>
 

@@ -9,11 +9,11 @@ const styles = (theme: Theme) => ({
         padding: '2px 2px',
         display: 'flex',
         alignItems: 'center',
-        width: 400,
+        width: 300,
     },
     input: {
         flex: 1,
-        width: 50
+        width: 25
     },
     divider: {
         height: 28,
@@ -53,8 +53,6 @@ interface SetProps {
 function Set(props: SetProps & WithStyles<'row' | 'input' | 'divider'>) {
     return (
         <Paper component="form" className={props.classes.row}>
-
-
             <TextField
                 className={props.classes.input}
                 id="outlined-select-currency"

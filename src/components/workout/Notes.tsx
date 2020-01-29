@@ -1,5 +1,5 @@
 import React from 'react'
-import { Theme, withStyles, WithStyles } from '@material-ui/core'
+import { Theme, withStyles, WithStyles, TextField } from '@material-ui/core'
 
 const styles = (theme: Theme) => ({
     item: {
@@ -15,7 +15,11 @@ interface NotesProps {
 function Notes(props: NotesProps & WithStyles<'item'>) {
     return (
         <div className={props.classes.item}>
-            {props.notes}
+            <TextField
+                variant="outlined"
+                value={props.notes}
+                defaultValue={"Enter notes here"}
+            />
         </div >
     )
 }
