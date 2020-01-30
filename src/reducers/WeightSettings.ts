@@ -1,15 +1,15 @@
 import { IAvailablePlates } from "../util/PlateCalculator"
+import { WeightUnit } from "../util/Weight"
 
 export interface IWeightSettings {
-    unit: string
+    unit: WeightUnit
     barWeight: number
     availablePlates: IAvailablePlates
 }
 
 const initialState: IWeightSettings = {
-    // TODO: unit should be an enum
-    "unit": "lbs",
-    "barWeight": 45,
+    "unit": WeightUnit.POUNDS,
+    "barWeight": 45,  // TODO: selectable bars per exercise
     "availablePlates": {
         45: 4,
         35: 2,

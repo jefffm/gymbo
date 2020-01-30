@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Box, Card, Theme, withStyles, WithStyles, CardContent, CardActions, Button, CardHeader, Typography } from '@material-ui/core'
+import { Grid, Card, Theme, withStyles, WithStyles, CardContent, CardActions, Typography } from '@material-ui/core'
 
 const styles = (theme: Theme) => ({
     container: {
@@ -15,6 +15,8 @@ const styles = (theme: Theme) => ({
 interface WorkoutSummaryProps {
     children?: React.ReactElement
 }
+
+// TODO: take a "logged workout" and extract the best set from each
 
 function WorkoutSummary(props: WorkoutSummaryProps & WithStyles<'container' | 'item'>) {
     return (

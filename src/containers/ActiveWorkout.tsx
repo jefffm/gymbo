@@ -4,7 +4,7 @@ import { AppState } from '..';
 import { connect } from 'react-redux';
 import PlateCalculator from '../util/PlateCalculator';
 import { withRouter, RouteComponentProps } from 'react-router'
-import { IWeightSettings } from '../reducers/weightSettings'
+import { IWeightSettings } from '../reducers/WeightSettings'
 import ActiveWorkoutHeader from '../components/workout/ActiveWorkoutHeader'
 import Notes from '../components/workout/Notes'
 import SetTable from '../components/workout/SetTable';

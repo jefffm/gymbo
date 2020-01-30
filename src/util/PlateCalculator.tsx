@@ -21,7 +21,7 @@ export class PlateCalculator {
 
         const availablePlates = this._normalizePlates(this.ctx.availablePlates)
 
-        return this._getNextPlate(
+        return this._getPlates(
             availablePlates.pop() as number, weightPerSide, availablePlates
         )
     }
@@ -37,7 +37,7 @@ export class PlateCalculator {
         return plates.sort((a, b) => a - b)
     }
 
-    _getNextPlate(
+    _getPlates(
         nextPlate: number, targetWeight: number, remainingPlates: number[]
     ): number[] {
         var rv: number[] = []
@@ -51,7 +51,7 @@ export class PlateCalculator {
 
         if (remainingPlates.length > 0) {
             return rv.concat(
-                this._getNextPlate(
+                this._getPlates(
                     remainingPlates.pop() as number, remainingWeight, remainingPlates
                 )
             )
