@@ -1,4 +1,4 @@
-import { IWeight } from '../util/Weight'
+import { IWeight } from './util/Weight'
 
 export enum SetType {
     NORMAL,
