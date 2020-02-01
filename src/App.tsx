@@ -3,6 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { Switch, Route, HashRouter, Redirect } from "react-router-dom"
 
 import ConfigurationPanel from './containers/ConfigurationPanel'
+import BackupPanel from './containers/Backup'
 import './App.css';
 import Workout from './containers/ActiveWorkout';
 import WorkoutList from './containers/WorkoutList';
@@ -36,6 +37,7 @@ const App: React.FC = () => {
                 <Route path="/workouts" component={WorkoutList} />
                 <Route path="/history" component={History} />
                 <Route path="/settings" component={ConfigurationPanel} />
+                <Route path="/backup" component={BackupPanel} />
                 <Route
                   path="/workout/:workoutId"
                   render={(props) => <Workout workoutId={props.match.params.workoutId} />}

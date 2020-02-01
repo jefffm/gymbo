@@ -1,5 +1,15 @@
 import { IWeight } from './util/Weight'
 
+/***
+
+ProgramTemplate (tbd) -> WorkoutTemplate -> ExerciseTemplate -> SetGroupTemplate
+
+Workouts can be selected using WorkoutTemplates
+
+A workout template contains several ExerciseTemplates, each of which contains one or more SetGroupTemplates
+
+ */
+
 export enum SetType {
     NORMAL,
     WARMUP,
@@ -8,10 +18,37 @@ export enum SetType {
     AMRAP
 }
 
-export interface ISetGroupTemplate {
-    name: string
+/// TODO: support other kinds of exercise
+export enum ExerciseType {
+    WEIGHT,
+    //BODY_WEIGHT,
+    //TIMED
+}
+
+export enum BarType {
+    NONE = "None",
+    BARBELL = "Barbell",
+    DUMBELL = "Dumbell",  // TODO: count volume double for anything dumbell
+    SAFETY_BAR = "Safety Bar",
+    CAMBERED_BAR = "Cambered Bar",
+    NEUTRAL_GRIP_BAR = "Neutral-grip Bar",
+    TRAP_BAR = "Trap Bar",
+    BUFFALO_BAR = "Buffalo Bar"
+}
+
+/// This is currently unused
+/// A ProgramTemplate should track the progress of multiple workout templates
+export interface IProgramTemplate {}
+
+export interface IExercise {
     exercise: string
-    variation?: string
+    exerciseType: ExerciseType
+    barType: BarType
+    barWeight: IWeight
+}
+
+/// A group of sets. "3 sets of 175 lbs for 5 reps" is a set group because it is actually three sets.
+export interface ISetGroupTemplate {
     setType?: SetType  // TODO: link this up with SetType somehow (from string?)
     weight?: IWeight  // TODO: parse this into a weight
     reps: number
@@ -20,14 +57,39 @@ export interface ISetGroupTemplate {
     restMinutes?: number // TODO: parse this into a time unit somehow
 }
 
+/// This object joins an exercise with a collection of setgroup templates
+export interface IExerciseSetsTemplate {
+    exerciseId: number
+    setGroups: ISetGroupTemplate[]
+}
+
+/// WorkoutTemplates contain ExerciseTemplates which contain SetGroupTemplates
+/// Workouts are mostly a container for exercises/sets with start/end time and notes.
+export interface IWorkoutTemplate {
+    workoutTemplateId: number
+    workoutName: string
+    notes?: string
+    exercises: IExerciseSetsTemplate[]
+}
+
+export interface ILoggedWorkout {
+}
+
+export interface ILoggedExercise {
+}
+
 export interface ILoggedSet {
-    name: string
-    exercise: string
-    variation?: string
-    setType?: SetType  // TODO: link this up with SetType somehow (from string?)
-    weight?: IWeight  // TODO: parse this into a weight
+    workoutId: string
+    setType?: SetType
+    weight: IWeight
     reps: number
     rpe?: number
-    sets?: number
-    restMinutes?: number // TODO: parse this into a time unit somehow
+    restMinutes?: number
+    timeCompleted?: number // timestamp?
 }
+
+export interface ILoggedExercise {
+    exercise: string
+    variation?: string
+}
+
