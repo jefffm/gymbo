@@ -6,12 +6,13 @@ import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
 import weightSettings from "./modules/WeightSettings";
-import exercises from "./modules/Exercises";
+import exercises from "./modules/exercises";
 
-const rootReducer = combineReducers({
-  weightSettings,
-  exercises
+export const rootReducer = combineReducers({
+  weightSettings: weightSettings,
+  exercises: exercises
 });
+// continue following https://github.com/paularmstrong/normalizr/tree/master/examples/redux/src/redux/
 
 export type AppState = ReturnType<typeof rootReducer>;
 

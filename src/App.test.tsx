@@ -4,7 +4,7 @@ import App from './App';
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
-import rootReducer from './reducers'
+import { rootReducer } from './redux'
 
 export type AppState = ReturnType<typeof rootReducer>
 

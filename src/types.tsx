@@ -41,8 +41,9 @@ export enum BarType {
 export interface IProgramTemplate { }
 
 export interface IExercise {
-    exercise: string
-    exerciseType: ExerciseType
+    name: string
+    type: ExerciseType
+    // TODO: normalize bar type/weight into its own type
     barType: BarType
     barWeight: IWeight
 }

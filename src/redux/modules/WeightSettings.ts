@@ -3,13 +3,11 @@ import { WeightUnit } from "../../util/Weight";
 
 export interface IWeightSettings {
   unit: WeightUnit;
-  barWeight: number;
   availablePlates: IAvailablePlates;
 }
 
 const initialState: IWeightSettings = {
   unit: WeightUnit.POUNDS,
-  barWeight: 45, // TODO: selectable bars per exercise
   availablePlates: {
     45: 4,
     35: 2,

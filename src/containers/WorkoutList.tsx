@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react';
 import { AppState } from '../redux/';
-import { Grid, Button, Theme, withStyles, Card, WithStyles } from '@material-ui/core';
+import { Grid, Button, Theme, withStyles, WithStyles } from '@material-ui/core';
 import WorkoutSummary from '../components/WorkoutSummary';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';

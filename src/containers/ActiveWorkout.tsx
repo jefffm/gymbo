@@ -38,6 +38,7 @@ type PropsWithStyles = WorkoutProps & WithStyles<'root' | 'button' | 'workout'>
 // TODO: Timer
 
 const ActiveWorkout = (props: PropsWithStyles) => {
+    // TODO use plate calculator
     const plateCalculator = new PlateCalculator(
         {
             availablePlates: props.weightSettings.availablePlates,

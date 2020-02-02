@@ -15,8 +15,8 @@ export class PlateCalculator {
         this.ctx = ctx
     }
 
-    getPlatesPerSide(weight: number): number[] {
-        const remainingWeight = weight - this.ctx.barWeight
+    getPlatesPerSide(weight: number, barWeight: number): number[] {
+        const remainingWeight = weight - barWeight
         const weightPerSide = remainingWeight / 2
 
         const availablePlates = this._normalizePlates(this.ctx.availablePlates)

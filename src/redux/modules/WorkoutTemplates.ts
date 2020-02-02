@@ -1,4 +1,4 @@
-import { SetType, IWorkoutTemplate, IExercise } from "../../types";
+import { IWorkoutTemplate } from "../../types";
 
 interface IWorkoutTemplates {
   workoutTemplates: IWorkoutTemplate[];
