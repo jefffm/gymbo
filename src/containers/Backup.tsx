@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
 import { Paper, Grid } from '@material-ui/core';
-import { AppState } from '../index';
-import { IWeightSettings } from '../reducers/WeightSettings';
+import { AppState } from '../redux';
+import { IWeightSettings } from '../redux/modules/WeightSettings';
 import { connect } from 'react-redux';
 
 interface BackupProps {

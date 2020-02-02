@@ -1,21 +1,23 @@
-import { SetType, IWorkoutTemplate } from "../types"
+import { SetType, IWorkoutTemplate, IExercise } from "../../types";
 
-
-const initialState: WorkoutTemplates = {
-    //workoutTemplates: []
-    workoutTemplates: [
-        {
-            workoutTemplateId: 1,
-            workoutName: "Test Workout",
-            exercises: []
-        }
-    ]
+interface IWorkoutTemplates {
+  workoutTemplates: IWorkoutTemplate[];
 }
+
+const initialState: IWorkoutTemplates = {
+  //workoutTemplates: []
+  workoutTemplates: [
+    {
+      workoutName: "Test Workout",
+      exercises: []
+    }
+  ]
+};
 
 const workoutTemplate = (
-    state: WorkoutTemplates = initialState,
-    action: any
-): WorkoutTemplates => {
-    return state
-}
-export default workoutTemplate
+  state: IWorkoutTemplates = initialState,
+  action: any
+): IWorkoutTemplates => {
+  return state;
+};
+export default workoutTemplate;

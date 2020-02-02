@@ -38,7 +38,7 @@ export enum BarType {
 
 /// This is currently unused
 /// A ProgramTemplate should track the progress of multiple workout templates
-export interface IProgramTemplate {}
+export interface IProgramTemplate { }
 
 export interface IExercise {
     exercise: string
@@ -57,19 +57,12 @@ export interface ISetGroupTemplate {
     restMinutes?: number // TODO: parse this into a time unit somehow
 }
 
-/// This object joins an exercise with a collection of setgroup templates
-export interface IExerciseSetsTemplate {
-    exerciseId: number
-    setGroups: ISetGroupTemplate[]
-}
-
 /// WorkoutTemplates contain ExerciseTemplates which contain SetGroupTemplates
 /// Workouts are mostly a container for exercises/sets with start/end time and notes.
 export interface IWorkoutTemplate {
-    workoutTemplateId: number
-    workoutName: string
+    workoutName: string;
+    exercises: IExercise[];
     notes?: string
-    exercises: IExerciseSetsTemplate[]
 }
 
 export interface ILoggedWorkout {

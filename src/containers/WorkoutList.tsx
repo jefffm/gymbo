@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppState } from '../App.test';
+import { AppState } from '../redux/';
 import { Grid, Button, Theme, withStyles, Card, WithStyles } from '@material-ui/core';
 import WorkoutSummary from '../components/WorkoutSummary';
 import { RouteComponentProps, withRouter } from 'react-router';

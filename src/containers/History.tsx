@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { AppState } from '../App.test';
 import { Paper, Grid } from '@material-ui/core';
 import { connect } from 'react-redux';
+import { AppState } from '../redux/';
 
 interface HistoryProps {
 }
