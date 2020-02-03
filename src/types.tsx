@@ -36,20 +36,25 @@ export enum BarType {
     BUFFALO_BAR = "Buffalo Bar"
 }
 
+export interface IBarbell {
+    type: BarType,
+    weight: IWeight
+}
+
 /// This is currently unused
 /// A ProgramTemplate should track the progress of multiple workout templates
 export interface IProgramTemplate { }
 
 export interface IExercise {
+    id: number
     name: string
     type: ExerciseType
-    // TODO: normalize bar type/weight into its own type
-    barType: BarType
-    barWeight: IWeight
+    barbellId: number
 }
 
 /// A group of sets. "3 sets of 175 lbs for 5 reps" is a set group because it is actually three sets.
 export interface ISetGroupTemplate {
+    exerciseId: number  // Foreign key for an IExercise
     setType?: SetType  // TODO: link this up with SetType somehow (from string?)
     weight?: IWeight  // TODO: parse this into a weight
     reps: number

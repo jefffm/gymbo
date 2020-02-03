@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import { Paper, Grid } from '@material-ui/core';
 import { AppState } from '../redux';
-import { IWeightSettings } from '../redux/modules/WeightSettings';
+import { IWeightSettings } from '../redux/modules/weightSettings';
 import { connect } from 'react-redux';
 
 interface ConfigurationPanelProps {
