@@ -42,7 +42,6 @@ const ActiveWorkout = (props: PropsWithStyles) => {
     const plateCalculator = new PlateCalculator(
         {
             availablePlates: props.weightSettings.availablePlates,
-            barWeight: props.weightSettings.barWeight
         }
     )
 

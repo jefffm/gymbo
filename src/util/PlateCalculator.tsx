@@ -3,7 +3,6 @@ export interface IAvailablePlates {
 }
 
 export interface IPlateCalcCtx {
-    barWeight: number
     availablePlates: IAvailablePlates
 }
 
