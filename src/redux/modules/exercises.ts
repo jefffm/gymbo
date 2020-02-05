@@ -6,7 +6,6 @@ export const STATE_KEY = "exercises";
 
 const ADD_EXERCISE = "ADD_EXERCISE";
 
-// normalized entity reducer
 interface IExercises
   extends Readonly<{
     [exerciseId: number]: IExercise;

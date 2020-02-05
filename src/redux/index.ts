@@ -15,12 +15,14 @@ import exercises, {
 import workoutTemplates, {
   STATE_KEY as WORKOUT_TEMPLATE_STATE_KEY
 } from "./modules/workoutTemplates";
+import bars, { STATE_KEY as BARS_STATE_KEY } from "./modules/bars";
 
 export const rootReducer = combineReducers({
   weightSettings: weightSettings,
   [WORKOUT_TEMPLATE_STATE_KEY]: workoutTemplates,
   [EXERCISE_STATE_KEY]: exercises,
-  [LOGGED_WORKOUT_STATE_KEY]: loggedWorkouts
+  [LOGGED_WORKOUT_STATE_KEY]: loggedWorkouts,
+  [BARS_STATE_KEY]: bars
 });
 // continue following https://github.com/paularmstrong/normalizr/tree/master/examples/redux/src/redux/
 

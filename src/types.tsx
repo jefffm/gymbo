@@ -37,6 +37,7 @@ export enum BarType {
 }
 
 export interface IBarbell {
+    id: number,
     type: BarType,
     weight: IWeight
 }
