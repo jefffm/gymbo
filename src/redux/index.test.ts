@@ -2,7 +2,7 @@ import { addExercise } from "./modules/exercises";
 import { IExercise, ExerciseType, IBarbell as IBar, BarType } from "../types";
 import { rootReducer } from "./index";
 import { createStore } from "redux";
-import { selectExercise, selectBar } from "./modules/selectors";
+import { selectExercise, selectBar } from "./selectors";
 import { addBar } from "./modules/bars";
 import { Pounds } from "../util/Weight";
 
