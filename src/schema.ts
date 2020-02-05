@@ -19,17 +19,16 @@ const workoutTemplates: ISetGroupTemplate[] = [
   }
 ];
 
-const bar = new schema.Entity("bars");
-const exercise = new schema.Entity("exercises", {
+export const bar = new schema.Entity("bars");
+export const exercise = new schema.Entity("exercises", {
   barId: bar
 });
-const workoutTemplate = new schema.Entity("workoutTemplates");
-const loggedWorkout = new schema.Entity("loggedWorkouts");
+export const loggedWorkout = new schema.Entity("loggedWorkouts");
 
-const exerciseTemplate = new schema.Entity("exerciseTemplates", {
+export const exerciseTemplate = new schema.Entity("exerciseTemplates", {
   exercise: exercise
 });
 
-const workoutTemplate = new schema.Entity("workoutTemplates", {
+export const workoutTemplate = new schema.Entity("workoutTemplates", {
   exercises: [exerciseTemplate]
 });

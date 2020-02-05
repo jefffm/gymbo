@@ -1,5 +1,6 @@
 import { IExercise } from "../../types";
-//import { denormalize } from "normalizr";
+import { denormalize } from "normalizr";
+import { exercise } from "../../schema";
 
 export const STATE_KEY = "exercises";
 
@@ -30,3 +31,6 @@ export const addExercise = (exercise: IExercise) => ({
   type: ADD_EXERCISE,
   payload: exercise
 });
+
+export const selectHydrated = (state: IExercises, id: number) =>
+  denormalize(id, exercise, state);
