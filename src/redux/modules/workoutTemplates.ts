@@ -10,6 +10,8 @@ export interface IWorkoutTemplates
     [workoutTemplateId: number]: IWorkoutTemplate;
   }> {}
 
+// TODO: add pre-initialized workout templates and develop rendering/listing
+
 const workoutTemplate = (
   state: IWorkoutTemplates = {},
   action: any
