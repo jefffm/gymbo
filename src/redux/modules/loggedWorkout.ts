@@ -1,4 +1,6 @@
 import { ILoggedWorkout } from "../../types";
+import * as Schema from "../../schema";
+import { denormalize } from "normalizr";
 
 export const STATE_KEY = "loggedWorkouts";
 
@@ -25,3 +27,6 @@ const loggedWorkouts = (
   }
 };
 export default loggedWorkouts;
+
+export const selectHydrated = (state: ILoggedWorkouts, id: number) =>
+  denormalize(id, Schema.loggedWorkout, state);
