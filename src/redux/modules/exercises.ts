@@ -1,10 +1,9 @@
 import { IExercise } from "../../types";
 import { denormalize } from "normalizr";
 import { exercise } from "../../schema";
+import { ADD_ENTITIES, addEntities } from "../actions";
 
 export const STATE_KEY = "exercises";
-
-const ADD_EXERCISE = "ADD_EXERCISE";
 
 interface IExercises
   extends Readonly<{
@@ -13,10 +12,10 @@ interface IExercises
 
 const exercises = (state: IExercises = {}, action: any): IExercises => {
   switch (action.type) {
-    case ADD_EXERCISE: {
+    case ADD_ENTITIES: {
       return {
         ...state,
-        [action.payload.id]: action.payload
+        ...action.payload.exercises
       };
     }
     default: {
@@ -26,10 +25,8 @@ const exercises = (state: IExercises = {}, action: any): IExercises => {
 };
 export default exercises;
 
-export const addExercise = (exercise: IExercise) => ({
-  type: ADD_EXERCISE,
-  payload: exercise
-});
+export const add = (exercises: IExercises) =>
+  addEntities({ [STATE_KEY]: exercises });
 
 export const selectHydrated = (state: IExercises, id: number) =>
   denormalize(id, exercise, state);

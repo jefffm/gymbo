@@ -36,7 +36,7 @@ export enum BarType {
     BUFFALO_BAR = "Buffalo Bar"
 }
 
-export interface IBarbell {
+export interface IBar {
     id: number,
     type: BarType,
     weight: IWeight
@@ -64,11 +64,10 @@ export interface ISetGroupTemplate {
     restMinutes?: number // TODO: parse this into a time unit somehow
 }
 
-/// WorkoutTemplates contain ExerciseTemplates which contain SetGroupTemplates
-/// Workouts are mostly a container for exercises/sets with start/end time and notes.
 export interface IWorkoutTemplate {
+    id: number
     workoutName: string;
-    exercises: IExercise[];
+    setGroups: ISetGroupTemplate[];  // TODO: is it necessary to normalize this?
     notes?: string
 }
 

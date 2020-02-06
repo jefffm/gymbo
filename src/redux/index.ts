@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-
 import { createStore } from "redux";
+
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
@@ -24,7 +24,6 @@ export const rootReducer = combineReducers({
   [LOGGED_WORKOUT_STATE_KEY]: loggedWorkouts,
   [BARS_STATE_KEY]: bars
 });
-// continue following https://github.com/paularmstrong/normalizr/tree/master/examples/redux/src/redux/
 
 export type AppState = ReturnType<typeof rootReducer>;
 

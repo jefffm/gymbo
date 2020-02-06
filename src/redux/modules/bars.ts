@@ -1,22 +1,21 @@
-import { IBarbell } from "../../types";
+import { IBar } from "../../types";
 import { denormalize } from "normalizr";
 import * as Schema from "../../schema";
+import { ADD_ENTITIES, addEntities } from "../actions";
 
 export const STATE_KEY = "bars";
 
-const ADD_BAR = "ADD_BAR";
-
 interface IBars
   extends Readonly<{
-    [exerciseId: number]: IBarbell;
+    [exerciseId: number]: IBar;
   }> {}
 
 const bars = (state: IBars = {}, action: any): IBars => {
   switch (action.type) {
-    case ADD_BAR: {
+    case ADD_ENTITIES: {
       return {
         ...state,
-        [action.payload.id]: action.payload
+        ...action.payload.bars
       };
     }
     default: {
@@ -26,10 +25,7 @@ const bars = (state: IBars = {}, action: any): IBars => {
 };
 export default bars;
 
-export const addBar = (bar: IBarbell) => ({
-  type: ADD_BAR,
-  payload: bar
-});
+export const add = (bars: IBars) => addEntities({ [STATE_KEY]: bars });
 
 export const selectHydrated = (state: IBars, id: number) =>
   denormalize(id, Schema.bar, state);
