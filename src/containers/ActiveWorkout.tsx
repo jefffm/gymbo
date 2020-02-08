@@ -1,125 +1,148 @@
-import React from 'react'
-import { Container, Grid, Button, WithStyles, withStyles, Theme } from '@material-ui/core'
-import { AppState } from '../redux';
-import { connect } from 'react-redux';
-import PlateCalculator from '../util/PlateCalculator';
-import { withRouter, RouteComponentProps } from 'react-router'
-import { IWeightSettings } from '../redux/modules/weightSettings'
-import ActiveWorkoutHeader from '../components/workout/ActiveWorkoutHeader'
-import Notes from '../components/workout/Notes'
-import SetTable from '../components/workout/SetTable';
-import Set from '../components/workout/Set';
-import ExerciseList from '../components/workout/ExerciseList';
-import Exercise from '../components/workout/Exercise';
+import React from "react";
+import {
+  Container,
+  Grid,
+  Button,
+  WithStyles,
+  withStyles,
+  Theme
+} from "@material-ui/core";
+import { AppState } from "../redux";
+import { connect } from "react-redux";
+import PlateCalculator from "../util/PlateCalculator";
+import { withRouter, RouteComponentProps } from "react-router";
+import { IWeightSettings } from "../redux/modules/weightSettings";
+import ActiveWorkoutHeader from "../components/workout/ActiveWorkoutHeader";
+import Notes from "../components/workout/Notes";
+import SetTable from "../components/workout/SetTable";
+import Set from "../components/workout/Set";
+import ExerciseList from "../components/workout/ExerciseList";
+import Exercise from "../components/workout/Exercise";
+import { selectExercise } from "../redux/selectors";
+
+import { IWorkoutTemplates } from "../redux/modules/workoutTemplates";
+import { IExercises } from "../redux/modules/exercises";
+import { IExercise, ISetGroupImpl } from "../types";
+import { IWeight, WeightUnit } from "../util/Weight";
 
 const styles = (theme: Theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    button: {
-        marginTop: theme.spacing(1),
-    },
-    workout: {
-        marginTop: theme.spacing(2),
-        color: theme.palette.text.secondary,
-    },
+  root: {
+    flexGrow: 1
+  },
+  button: {
+    marginTop: theme.spacing(1)
+  },
+  workout: {
+    marginTop: theme.spacing(2),
+    color: theme.palette.text.secondary
+  }
 });
 
-
 interface WorkoutProps extends RouteComponentProps<{}> {
-    workoutId: string
-    dispatch: any
-    weightSettings: IWeightSettings
+  workoutId: number;
+  dispatch: any;
+  weightSettings: IWeightSettings;
+  workoutTemplates: IWorkoutTemplates;
+  exercises: IExercises;
 }
 
-type PropsWithStyles = WorkoutProps & WithStyles<'root' | 'button' | 'workout'>
+type PropsWithStyles = WorkoutProps & WithStyles<"root" | "button" | "workout">;
 
 // TODO: ElevateAppBar with back button
 // TODO: Timer
 
 const ActiveWorkout = (props: PropsWithStyles) => {
-    // TODO use plate calculator
-    const plateCalculator = new PlateCalculator(
-        {
-            availablePlates: props.weightSettings.availablePlates,
-        }
-    )
+  const {
+    classes,
+    dispatch,
+    history,
+    workoutId,
+    weightSettings,
+    workoutTemplates,
+    exercises
+  } = props;
 
-    return <Container>
-        <Grid container
-            direction="column"
-            justify="center"
-            alignItems="stretch" >
+  const activeWorkout = workoutTemplates[workoutId];
+  const weightUnit = WeightUnit.POUNDS  // TODO: pull from weight settings
 
-            <Button
-                className={props.classes.button}
-                onClick={() => props.history.goBack()}>
-                Back
-            </Button>
+  // TODO use plate calculator
+  const plateCalculator = new PlateCalculator({
+    availablePlates: weightSettings.availablePlates
+  });
 
-            <Grid item>
-                <ActiveWorkoutHeader
-                    title={"Workout Name"}
-                    timeElapsed={"00:35:12"}
-                />
-            </Grid>
+  const exerciseComponents = activeWorkout.exercises.map(
+    exerciseTemplate => {
+      const exercise: IExercise = selectExercise(
+        exercises,
+        exerciseTemplate.exerciseId
+      );
 
-            <Grid item>
-                <Notes
-                    notes={"These are some workout notes"}
-                />
-            </Grid>
+      return (
+        <Exercise name={exercise.name}>
+          <SetTable unit={"lbs"}>
+            {exerciseTemplate.setGroups.flatMap((setGroup: ISetGroupImpl) => {
+              return [...Array(setGroup.sets)].map((_, i) => {
+                // TODO: optional handling for rpe and weight
+                const weight = setGroup.weight
+                return (<Set
+                  setType="W"
+                  unit="lbs"
+                  weight={weight ? weight.asUnit(weightUnit) : 0}
+                  reps={5}
+                  rpe={setGroup.rpe ? setGroup.rpe : 0}
+                  done={true}
+                />)
+              }
+            }
+      );
+          </SetTable>
+              <Button>Add Set</Button>
+        </Exercise>
+            )
+    }
+  );
+  return (
+    <Container>
+      <Grid container direction="column" justify="center" alignItems="stretch">
+        <Button className={classes.button} onClick={() => history.goBack()}>
+          Back
+        </Button>
 
-            <Grid item>
-                <ExerciseList>
-                    <Exercise name="squats">
-                        <SetTable unit={"lbs"}>
-                            <Set
-                                setType="W"
-                                unit="lbs"
-                                weight={45}
-                                reps={5}
-                                rpe={8}
-                                done={true}
-                            />
-                            <Set
-                                setType=""
-                                unit="lbs"
-                                weight={155}
-                                reps={5}
-                                rpe={8}
-                                done={false}
-                            />
-                            <Set
-                                setType=""
-                                unit="lbs"
-                                weight={180}
-                                reps={5}
-                                rpe={8}
-                                done={false}
-                            />
-                        </SetTable>
-                        <Button>Add Set</Button>
-                    </Exercise>
-                    <Button>Add Exercise</Button>
-                </ExerciseList>
-            </Grid>
-
-            <Button
-                className={props.classes.button}
-                onClick={() => console.log("Cancelling workout " + props.workoutId)}>
-                Cancel Workout
-            </Button>
+        <Grid item>
+          <ActiveWorkoutHeader
+            title={activeWorkout.workoutName}
+            timeElapsed={"00:35:12"}
+          />
         </Grid>
+
+        <Grid item>
+          <Notes notes={"These are some workout notes"} />
+        </Grid>
+
+        <Grid item>
+          <ExerciseList>
+            {exerciseComponents}
+            <Button>Add Exercise</Button>
+          </ExerciseList>
+        </Grid>
+
+        <Button
+          className={classes.button}
+          onClick={() => console.log("Cancelling workout " + workoutId)}
+        >
+          Cancel Workout
+        </Button>
+      </Grid>
     </Container>
-}
+  );
+};
 
 const mapStateToProps = (state: AppState) => ({
-    weightSettings: state.weightSettings,
-})
+  weightSettings: state.weightSettings,
+  workoutTemplates: state.workoutTemplates,
+  exercises: state.exercises
+});
 
 export default withRouter(
-    connect(mapStateToProps)(
-        withStyles(styles)(ActiveWorkout)
-    )
-)
+  connect(mapStateToProps)(withStyles(styles)(ActiveWorkout))
+);

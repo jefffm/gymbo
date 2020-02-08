@@ -5,7 +5,7 @@ import { ADD_ENTITIES, addEntities } from "../actions";
 
 export const STATE_KEY = "exercises";
 
-interface IExercises
+export interface IExercises
   extends Readonly<{
     [exerciseId: number]: IExercise;
   }> {}
