@@ -22,7 +22,7 @@ import { selectExercise } from "../redux/selectors";
 
 import { IWorkoutTemplates } from "../redux/modules/workoutTemplates";
 import { IExercises } from "../redux/modules/exercises";
-import { IExercise, ISetGroupImpl } from "../types";
+import { IExercise, ISetGroupTemplateBase } from "../types";
 import { IWeight, WeightUnit } from "../util/Weight";
 
 const styles = (theme: Theme) => ({
@@ -72,35 +72,31 @@ const ActiveWorkout = (props: PropsWithStyles) => {
 
   const exerciseComponents = activeWorkout.exercises.map(
     exerciseTemplate => {
-      const exercise: IExercise = selectExercise(
-        exercises,
-        exerciseTemplate.exerciseId
-      );
+      const exercise = exercises[exerciseTemplate.exerciseId]
 
       return (
         <Exercise name={exercise.name}>
           <SetTable unit={"lbs"}>
-            {exerciseTemplate.setGroups.flatMap((setGroup: ISetGroupImpl) => {
-              return [...Array(setGroup.sets)].map((_, i) => {
-                // TODO: optional handling for rpe and weight
+            {exerciseTemplate.setGroups.flatMap((setGroup: ISetGroupTemplateBase) =>
+              [...Array(setGroup.sets)].map((_, i) => {
                 const weight = setGroup.weight
-                return (<Set
-                  setType="W"
-                  unit="lbs"
-                  weight={weight ? weight.asUnit(weightUnit) : 0}
-                  reps={5}
-                  rpe={setGroup.rpe ? setGroup.rpe : 0}
+                return <Set
+                  key={exercise.id+i}
+                  setType={setGroup.setType}
+                  reps={setGroup.reps}
+                  weight={setGroup.weight?.asUnit(weightSettings.unit)}
+                  rpe={setGroup.rpe}
                   done={true}
-                />)
-              }
-            }
-      );
+                />
+              })
+            )}
           </SetTable>
-              <Button>Add Set</Button>
+          <Button>Add Set</Button>
         </Exercise>
-            )
+      )
     }
   );
+
   return (
     <Container>
       <Grid container direction="column" justify="center" alignItems="stretch">

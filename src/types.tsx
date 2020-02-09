@@ -44,7 +44,7 @@ export interface IBar {
 
 /// This is currently unused
 /// A ProgramTemplate should track the progress of multiple workout templates
-export interface IProgramTemplate {}
+export interface IProgramTemplate { }
 
 export interface IExercise {
   id: number;
@@ -54,7 +54,7 @@ export interface IExercise {
 }
 
 /// A group of sets. "3 sets of 175 lbs for 5 reps" is a set group because it is actually three sets.
-interface ISetGroupTemplateBase {
+export interface ISetGroupTemplateBase {
   setType: SetType;
   sets: number;
   reps: number;
@@ -85,9 +85,9 @@ export interface IWorkoutTemplate {
   notes?: string;
 }
 
-export interface ILoggedWorkout {}
+export interface ILoggedWorkout { }
 
-export interface ILoggedExercise {}
+export interface ILoggedExercise { }
 
 export interface ILoggedSet {
   workoutId: string;

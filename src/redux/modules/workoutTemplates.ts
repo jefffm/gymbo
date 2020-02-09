@@ -7,7 +7,6 @@ import {
   removeEntities,
   REMOVE_ENTITIES
 } from "../actions";
-import { Z_FILTERED } from "zlib";
 
 export const STATE_KEY = "workoutTemplates";
 
@@ -23,7 +22,8 @@ const initialState: IWorkoutTemplates = {
     workoutName: "Test Workout Template",
     exercises: [
       {
-        exerciseId: 1, setGroups: [
+        exerciseId: 1,
+        setGroups: [
           {
             setType: SetType.NORMAL,
             reps: 5,
@@ -41,12 +41,12 @@ const initialState: IWorkoutTemplates = {
             reps: 5,
             rpe: 8,
             sets: 3
-          },
+          }
         ]
-      },
+      }
     ]
-  };
-}
+  }
+};
 
 const workoutTemplate = (
   state: IWorkoutTemplates = initialState,

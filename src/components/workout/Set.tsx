@@ -1,6 +1,7 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField';
-import { Paper, Theme, withStyles, WithStyles, Grid, MenuItem, FormControlLabel, FormGroup, Checkbox, TableRow, TableCell, IconButton, InputAdornment } from '@material-ui/core'
+import { Paper, Theme, withStyles, WithStyles, MenuItem, Checkbox } from '@material-ui/core'
+import { SetType } from '../../types';
 
 
 
@@ -21,57 +22,31 @@ const styles = (theme: Theme) => ({
     },
 });
 
-// TODO: move setTypes elsewhere
-const setTypes = [
-    {
-        value: 'Normal',
-        label: '',
-    },
-    {
-        value: 'W',
-        label: 'Warmup',
-    },
-    {
-        value: 'D',
-        label: 'Drop set',
-    },
-    {
-        value: 'F',
-        label: 'Failed set',
-    },
-];
-
 interface SetProps {
-    setType: string,  // TODO: use an enum for SetType
-    unit: string,
-    weight: number,
+    setType: SetType,
     reps: number,
-    rpe: number,
-    done: boolean
+    weight?: number,
+    rpe?: number,
+    done: boolean  // TODO: change done boolean to "result" enum
 }
 
 function Set(props: SetProps & WithStyles<'row' | 'input' | 'divider'>) {
+    const { classes, setType, weight, reps, rpe, done } = props;
     return (
-        <Paper component="form" className={props.classes.row}>
+        <Paper component="form" className={classes.row}>
             <TextField
-                className={props.classes.input}
-                id="outlined-select-currency"
+                className={classes.input}
+                id="setType"
                 select
-                value={props.setType}
+                value={setType}
                 variant="outlined"
                 size="small"
             >
-                {setTypes.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                        {option.value}
-                    </MenuItem>
-                ))}
-
             </TextField>
 
             <TextField
-                className={props.classes.input}
-                defaultValue={props.weight}
+                className={classes.input}
+                defaultValue={weight}
                 variant="outlined"
                 size="small"
             />
@@ -79,8 +54,8 @@ function Set(props: SetProps & WithStyles<'row' | 'input' | 'divider'>) {
             {"x"}
 
             <TextField
-                className={props.classes.input}
-                defaultValue={props.reps}
+                className={classes.input}
+                defaultValue={reps}
                 variant="outlined"
                 size="small"
             />
@@ -88,14 +63,14 @@ function Set(props: SetProps & WithStyles<'row' | 'input' | 'divider'>) {
             {"@"}
 
             <TextField
-                className={props.classes.input}
-                defaultValue={props.rpe}
+                className={classes.input}
+                defaultValue={rpe}
                 variant="outlined"
                 size="small"
             />
 
             <Checkbox
-                checked={props.done}
+                checked={done}
                 onChange={() => { console.log("marking set as done") }}
             />
         </Paper >

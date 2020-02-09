@@ -1,6 +1,6 @@
 import { IAvailablePlates } from "../../util/PlateCalculator";
 import { WeightUnit } from "../../util/Weight";
-export const STATE_KEY = "WEIGHT_SETTINGS";
+export const STATE_KEY = "weightSettings";
 
 export interface IWeightSettings
   extends Readonly<{

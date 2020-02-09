@@ -1,5 +1,5 @@
 import { schema } from "normalizr";
-import { ISetGroupTemplate, SetType } from "./types";
+import { ISetGroupTemplateBase, SetType } from "./types";
 import { Pounds } from "./util/Weight";
 
 // TODO: fixup this schema
