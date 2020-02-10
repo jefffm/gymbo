@@ -79,12 +79,12 @@ const ActiveWorkout = (props: PropsWithStyles) => {
           <SetTable unit={"lbs"}>
             {exerciseTemplate.setGroups.flatMap((setGroup: ISetGroupTemplateBase) =>
               [...Array(setGroup.sets)].map((_, i) => {
-                const weight = setGroup.weight
                 return <Set
                   key={exercise.id+i}
                   setType={setGroup.setType}
                   reps={setGroup.reps}
-                  weight={setGroup.weight?.asUnit(weightSettings.unit)}
+                  weight={setGroup.weight}
+                  unit={weightSettings.unit}
                   rpe={setGroup.rpe}
                   done={true}
                 />

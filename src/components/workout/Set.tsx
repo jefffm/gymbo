@@ -1,8 +1,8 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField';
-import { Paper, Theme, withStyles, WithStyles, MenuItem, Checkbox } from '@material-ui/core'
+import { Paper, Theme, withStyles, WithStyles, Checkbox } from '@material-ui/core'
 import { SetType } from '../../types';
-
+import { IWeight, WeightUnit } from '../../util/Weight';
 
 
 const styles = (theme: Theme) => ({
@@ -25,7 +25,8 @@ const styles = (theme: Theme) => ({
 interface SetProps {
     setType: SetType,
     reps: number,
-    weight?: number,
+    unit: WeightUnit,
+    weight?: IWeight,
     rpe?: number,
     done: boolean  // TODO: change done boolean to "result" enum
 }
