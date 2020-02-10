@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import { IWorkoutTemplates } from '../redux/modules/workoutTemplates';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -31,14 +32,19 @@ const styles = (theme: Theme) => ({
   }
 });
 
-export interface WorkoutListProps extends RouteComponentProps<{}> {}
+export interface WorkoutListProps extends RouteComponentProps<{
+}> {
+  workoutTemplates: IWorkoutTemplates
+}
 
 type PropsWithStyles = WorkoutListProps &
   WithStyles<"root" | "button" | "workout" | "fab">;
 
 // TODO: List all configured WorkoutTemplates, summarize each, and select an active workout from a template
+// TODO: onClickHandler for setActiveWorkout
+// TODO: setActiveWorkout converts the selected workoutTemplate to an IActiveWorkout
 const WorkoutList = (props: PropsWithStyles) => {
-  const classes = props.classes;
+  const { classes, workoutTemplates } = props;
   return (
     <div>
       <Grid
@@ -95,7 +101,9 @@ const WorkoutList = (props: PropsWithStyles) => {
   );
 };
 
-const mapStateToProps = (state: AppState) => ({});
+const mapStateToProps = (state: AppState) => ({
+  workoutTemplates: state.workoutTemplates
+});
 
 export default withRouter(
   connect(mapStateToProps)(withStyles(styles)(WorkoutList))

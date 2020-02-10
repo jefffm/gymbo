@@ -1,3 +1,4 @@
+import { IActiveWorkout } from "./modules/activeWorkout";
 export { add as addBars } from "./modules/bars";
 export { add as addExercises } from "./modules/exercises";
 export {
@@ -16,4 +17,10 @@ export const REMOVE_ENTITIES = "REMOVE_ENTITIES";
 export const removeEntities = (...entityIds: number[]) => ({
   type: REMOVE_ENTITIES,
   payload: entityIds
+});
+
+export const SET_ACTIVE_WORKOUT = "SET_ACTIVE_WORKOUT";
+export const setActiveWorkout = (activeWorkout: IActiveWorkout) => ({
+  type: SET_ACTIVE_WORKOUT,
+  payload: activeWorkout
 });

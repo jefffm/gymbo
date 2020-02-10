@@ -18,12 +18,11 @@ import SetTable from "../components/workout/SetTable";
 import Set from "../components/workout/Set";
 import ExerciseList from "../components/workout/ExerciseList";
 import Exercise from "../components/workout/Exercise";
-import { selectExercise } from "../redux/selectors";
 
 import { IWorkoutTemplates } from "../redux/modules/workoutTemplates";
 import { IExercises } from "../redux/modules/exercises";
-import { IExercise, ISetGroupTemplateBase } from "../types";
-import { IWeight, WeightUnit } from "../util/Weight";
+import { ISetGroupTemplateBase } from "../types";
+import { WeightUnit } from "../util/Weight";
 
 const styles = (theme: Theme) => ({
   root: {
@@ -62,8 +61,8 @@ const ActiveWorkout = (props: PropsWithStyles) => {
     exercises
   } = props;
 
+  // TODO: use a separate type for ActiveWorkout, not a workoutTemplate
   const activeWorkout = workoutTemplates[workoutId];
-  const weightUnit = WeightUnit.POUNDS  // TODO: pull from weight settings
 
   // TODO use plate calculator
   const plateCalculator = new PlateCalculator({
@@ -80,7 +79,7 @@ const ActiveWorkout = (props: PropsWithStyles) => {
             {exerciseTemplate.setGroups.flatMap((setGroup: ISetGroupTemplateBase) =>
               [...Array(setGroup.sets)].map((_, i) => {
                 return <Set
-                  key={exercise.id+i}
+                  key={exercise.id + i}
                   setType={setGroup.setType}
                   reps={setGroup.reps}
                   weight={setGroup.weight}
@@ -112,7 +111,7 @@ const ActiveWorkout = (props: PropsWithStyles) => {
         </Grid>
 
         <Grid item>
-          <Notes notes={"These are some workout notes"} />
+          <Notes notes={activeWorkout.notes} />
         </Grid>
 
         <Grid item>
