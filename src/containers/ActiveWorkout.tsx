@@ -22,7 +22,7 @@ import Exercise from "../components/workout/Exercise";
 import { IWorkoutTemplates } from "../redux/modules/workoutTemplates";
 import { IExercises } from "../redux/modules/exercises";
 import { ISetGroupTemplateBase } from "../types";
-import { WeightUnit } from "../util/Weight";
+import { WeightUnit } from '../util/Weight';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -39,7 +39,6 @@ const styles = (theme: Theme) => ({
 
 interface WorkoutProps extends RouteComponentProps<{}> {
   workoutId: number;
-  dispatch: any;
   weightSettings: IWeightSettings;
   workoutTemplates: IWorkoutTemplates;
   exercises: IExercises;
@@ -47,13 +46,11 @@ interface WorkoutProps extends RouteComponentProps<{}> {
 
 type PropsWithStyles = WorkoutProps & WithStyles<"root" | "button" | "workout">;
 
-// TODO: ElevateAppBar with back button
 // TODO: Timer
 
 const ActiveWorkout = (props: PropsWithStyles) => {
   const {
     classes,
-    dispatch,
     history,
     workoutId,
     weightSettings,
@@ -75,7 +72,7 @@ const ActiveWorkout = (props: PropsWithStyles) => {
 
       return (
         <Exercise name={exercise.name}>
-          <SetTable unit={"lbs"}>
+          <SetTable>
             {exerciseTemplate.setGroups.flatMap((setGroup: ISetGroupTemplateBase) =>
               [...Array(setGroup.sets)].map((_, i) => {
                 return <Set
@@ -96,6 +93,9 @@ const ActiveWorkout = (props: PropsWithStyles) => {
     }
   );
 
+  // TODO: activeWorkout should have a start time. Refresh time elapsed from current time
+  const timeElapsed = "00:35:12";
+
   return (
     <Container>
       <Grid container direction="column" justify="center" alignItems="stretch">
@@ -106,7 +106,7 @@ const ActiveWorkout = (props: PropsWithStyles) => {
         <Grid item>
           <ActiveWorkoutHeader
             title={activeWorkout.workoutName}
-            timeElapsed={"00:35:12"}
+            timeElapsed={timeElapsed}
           />
         </Grid>
 
@@ -137,6 +137,10 @@ const mapStateToProps = (state: AppState) => ({
   workoutTemplates: state.workoutTemplates,
   exercises: state.exercises
 });
+
+const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
+  toggleTodo: () => dispatch((ownProps.todoId))
+})
 
 export default withRouter(
   connect(mapStateToProps)(withStyles(styles)(ActiveWorkout))

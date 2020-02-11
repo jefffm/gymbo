@@ -9,16 +9,17 @@ const styles = (theme: Theme) => ({
 });
 
 interface NotesProps {
-    notes: string
+    notes?: string
 }
 
 function Notes(props: NotesProps & WithStyles<'item'>) {
+    const { classes, notes } = props;
     return (
-        <div className={props.classes.item}>
+        <div className={classes.item}>
             <TextField
                 variant="outlined"
-                value={props.notes}
-                defaultValue={"Enter notes here"}
+                value={notes}
+                label={"Notes"}
             />
         </div >
     )

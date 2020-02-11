@@ -53,6 +53,10 @@ export interface IExercise {
   barbellId: number;
 }
 
+/**
+ * TEMPLATE WORKOUT
+ */
+
 /// A group of sets. "3 sets of 175 lbs for 5 reps" is a set group because it is actually three sets.
 export interface ISetGroupTemplateBase {
   setType: SetType;
@@ -63,19 +67,9 @@ export interface ISetGroupTemplateBase {
   rpe?: number;
 }
 
-export interface ISetGroupStaticTemplate extends ISetGroupTemplateBase {
-  weight: IWeight; // TODO: parse this into a weight
-}
-
-export interface ISetGroupRpeTemplate extends ISetGroupTemplateBase {
-  rpe: number;
-}
-
-export type ISetGroupImpl = ISetGroupRpeTemplate | ISetGroupStaticTemplate;
-
 export interface IExerciseTemplate {
   exerciseId: number; // Foreign key for an IExercise
-  setGroups: ISetGroupImpl[]; // TODO: is it necessary to normalize this?
+  setGroups: ISetGroupTemplateBase[]; // TODO: is it necessary to normalize this?
 }
 
 export interface IWorkoutTemplate {
@@ -85,12 +79,52 @@ export interface IWorkoutTemplate {
   notes?: string;
 }
 
-export interface ILoggedWorkout { }
+/**
+ * ACTIVE WORKOUT
+ */
 
-export interface ILoggedExercise { }
 
-export interface ILoggedSet {
-  workoutId: string;
+export enum SetResult {
+  NOT_DONE = "NOT_DONE",
+  DONE = "DONE",
+  FAIL = "FAIL"
+}
+
+export interface IActiveSetGroup {
+  setType?: SetType;
+  sets?: number;
+  reps?: number;
+  restMinutes?: number; // TODO: parse this into a time unit somehow
+  weight?: IWeight;
+  rpe?: number;
+  result?: SetResult;
+}
+
+
+export interface IActiveExercise {
+  exerciseId: number; // Foreign key for an IExercise
+  setGroups: IActiveSetGroup[]; // TODO: is it necessary to normalize this?
+}
+
+/// Intermediate type that accepts a workoutTemplate and implements a builder for a LoggedWorkout
+export interface IActiveWorkout
+  extends Readonly<{
+    workoutId: number;
+    startTime: number;
+    workoutTemplateId?: number;
+    workoutName: string;
+    exercises: IActiveExercise[];
+    notes?: string;
+
+  }> { }
+
+
+/**
+ * LOGGED WORKOUT
+ */
+
+export interface ILoggedSetGroup {
+  sets?: number;
   setType?: SetType;
   weight: IWeight;
   reps: number;
@@ -100,6 +134,16 @@ export interface ILoggedSet {
 }
 
 export interface ILoggedExercise {
-  exercise: string;
-  variation?: string;
+  exerciseId: number
+  setGroups: ILoggedSetGroup[];
+}
+
+export interface ILoggedWorkout {
+  id: number
+  startTime: number;
+  endTime: number
+  workoutTemplateId?: number;
+  workoutName: string;
+  exercises: ILoggedExercise[];
+  notes?: string;
 }

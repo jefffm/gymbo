@@ -1,18 +1,15 @@
 import { SET_ACTIVE_WORKOUT } from "../actions";
+import { IActiveWorkout } from "../../types";
 export const STATE_KEY = "activeWorkout";
 
-// TODO: create an intermediate type that accepts a workoutTemplate and implements a builder for a LoggedWorkout
-export interface IActiveWorkout
-  extends Readonly<{
-    workoutTemplateId?: number;
-  }> {}
+export type IActiveWorkoutType = IActiveWorkout | undefined;
 
-const initialState: IActiveWorkout = {};
+const initialState = undefined;
 
 const activeWorkout = (
-  state: IActiveWorkout = initialState,
+  state: IActiveWorkoutType = initialState,
   action: any
-): IActiveWorkout => {
+): IActiveWorkoutType => {
   switch (action.type) {
     case SET_ACTIVE_WORKOUT: {
       return {

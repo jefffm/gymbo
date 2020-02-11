@@ -1,5 +1,5 @@
 import React from 'react'
-import { Theme, withStyles, WithStyles, Box, Table, TableCell, TableHead, TableRow, FormControl, FormGroup, FormLabel, Container } from '@material-ui/core'
+import { Theme, withStyles, WithStyles, FormControl, FormGroup, Container } from '@material-ui/core'
 
 const styles = (theme: Theme) => ({
     item: {
@@ -11,7 +11,6 @@ const styles = (theme: Theme) => ({
 });
 
 interface SetTableProps {
-    unit: string
     children: React.ReactElement[] | React.ReactElement
 }
 
