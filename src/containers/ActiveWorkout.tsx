@@ -64,6 +64,11 @@ const ActiveWorkout = (props: PropsWithStyles) => {
     setActiveWorkout
   } = props;
 
+  // TODO: Rework this whole thing to remove the use of the "ActiveWorkout" types and use a logged workout instead.
+  // A workout is unstarted if it has no start time (so, don't show the timer)
+  // A workout is "active" if it has a start time and no end time
+  // A global "activeworkout" id can be used to ensure there's only one active
+  // A workout is "complete" if it has an end time
   const createNewWorkout = () => {
     const newWorkout: IActiveWorkout = {
       workoutId: workoutId,

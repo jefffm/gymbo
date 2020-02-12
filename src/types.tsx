@@ -79,66 +79,32 @@ export interface IWorkoutTemplate {
   notes?: string;
 }
 
-/**
- * ACTIVE WORKOUT
- */
-
 export enum SetResult {
   NOT_DONE = "NOT_DONE",
   DONE = "DONE",
   FAIL = "FAIL"
 }
 
-/// An ActiveSet represents ONE set of the currently active workout
-/// It's basically a temporary buffer for a LoggedSet
-export interface IActiveSet {
-  setType: SetType;
-  reps?: number;
-  restMinutes?: number; // TODO: parse this into a time unit somehow
+export interface ISet {
+  setType?: SetType;
   weight?: IWeight;
-  rpe?: number;
-  result?: SetResult;
-}
-
-export interface IActiveExercise {
-  exerciseId: number; // Foreign key for an IExercise
-  sets: IActiveSet[]; // TODO: is it necessary to normalize this?
-}
-
-/// Intermediate type that accepts a workoutTemplate and implements a builder for a LoggedWorkout
-export interface IActiveWorkout {
-  workoutId: number;
-  startTime: string; // ISO time
-  workoutTemplateId?: number;
-  workoutName: string;
-  exercises: IActiveExercise[];
-  notes?: string;
-}
-
-/**
- * LOGGED WORKOUT
- */
-
-export interface ILoggedSet {
-  setType: SetType;
-  weight: IWeight;
-  reps: number;
+  reps?: number;
   rpe?: number;
   restMinutes?: number;
   timeCompleted?: number; // timestamp?
 }
 
-export interface ILoggedExercise {
+export interface IExerciseSets {
   exerciseId: number;
-  setGroups: ILoggedSet[];
+  sets: ISet[];
 }
 
-export interface ILoggedWorkout {
+export interface IWorkout {
   id: number;
   startTime: Date;
   endTime: Date;
   workoutTemplateId?: number;
   workoutName: string;
-  exercises: ILoggedExercise[];
+  exercises: IExerciseSets[];
   notes?: string;
 }
