@@ -5,7 +5,7 @@ import { Switch, Route, HashRouter, Redirect } from "react-router-dom"
 import ConfigurationPanel from './containers/ConfigurationPanel'
 import BackupPanel from './containers/Backup'
 import './App.css';
-import Workout from './containers/ActiveWorkout';
+import ActiveWorkout from './containers/ActiveWorkout';
 import WorkoutList from './containers/WorkoutList';
 import { History } from './containers/History';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -40,7 +40,7 @@ const App: React.FC = () => {
                 <Route path="/backup" component={BackupPanel} />
                 <Route
                   path="/workout/:workoutId"
-                  render={(props) => <Workout workoutId={props.match.params.workoutId} />}
+                  render={(props) => <ActiveWorkout workoutId={props.match.params.workoutId} />}
                 />
                 <Route path="/">
                   <Redirect to="/workouts" />

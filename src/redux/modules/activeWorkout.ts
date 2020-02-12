@@ -2,9 +2,9 @@ import { SET_ACTIVE_WORKOUT } from "../actions";
 import { IActiveWorkout } from "../../types";
 export const STATE_KEY = "activeWorkout";
 
-export type IActiveWorkoutType = IActiveWorkout | undefined;
+export type IActiveWorkoutType = IActiveWorkout | null;
 
-const initialState = undefined;
+const initialState = null;
 
 const activeWorkout = (
   state: IActiveWorkoutType = initialState,

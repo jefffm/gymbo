@@ -8,7 +8,7 @@ export {
 export { add as addLoggedWorkouts } from "./modules/loggedWorkout";
 
 export const ADD_ENTITIES = "ADD_ENTITIES";
-export const addEntities = (entities: any) => ({
+export const addEntities = (...entities: any) => ({
   type: ADD_ENTITIES,
   payload: entities
 });

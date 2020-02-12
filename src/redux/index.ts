@@ -1,10 +1,13 @@
-import { combineReducers } from "redux";
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
+import { devToolsEnhancer } from "redux-devtools-extension";
 
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
+import activeWorkout, {
+  STATE_KEY as ACTIVE_WORKOUT_STATE_KEY
+} from "./modules/activeWorkout";
 import weightSettings, {
   STATE_KEY as WEIGHT_SETTINGS_STATE_KEY
 } from "./modules/weightSettings";
@@ -20,6 +23,7 @@ import workoutTemplates, {
 import bars, { STATE_KEY as BARS_STATE_KEY } from "./modules/bars";
 
 export const rootReducer = combineReducers({
+  [ACTIVE_WORKOUT_STATE_KEY]: activeWorkout,
   [WEIGHT_SETTINGS_STATE_KEY]: weightSettings,
   [WORKOUT_TEMPLATE_STATE_KEY]: workoutTemplates,
   [EXERCISE_STATE_KEY]: exercises,
@@ -37,5 +41,5 @@ const persistConfig = {
 
 const pReducer = persistReducer(persistConfig, rootReducer as any);
 
-export const store = createStore(pReducer);
+export const store = createStore(pReducer, devToolsEnhancer({}));
 export const persistor = persistStore(store);

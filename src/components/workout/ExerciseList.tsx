@@ -1,22 +1,20 @@
-import React from 'react'
-import { Theme, withStyles, WithStyles } from '@material-ui/core'
+import React from "react";
+import { Theme, withStyles, WithStyles } from "@material-ui/core";
 
 const styles = (theme: Theme) => ({
-    item: {
-        marginTop: theme.spacing(1),
-        color: theme.palette.text.secondary,
-    },
+  item: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    color: theme.palette.text.secondary
+  }
 });
 
 interface ExerciseListProps {
-    children: any
+  children: any;
 }
 
-const ExerciseList = (props: ExerciseListProps & WithStyles<'item'>) =>
-    (
-        <div className={props.classes.item}>
-            {props.children}
-        </div >
-    )
+const ExerciseList = (props: ExerciseListProps & WithStyles<"item">) => (
+  <div className={props.classes.item}>{props.children}</div>
+);
 
-export default withStyles(styles)(ExerciseList)
+export default withStyles(styles)(ExerciseList);

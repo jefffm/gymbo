@@ -44,7 +44,7 @@ export interface IBar {
 
 /// This is currently unused
 /// A ProgramTemplate should track the progress of multiple workout templates
-export interface IProgramTemplate { }
+export interface IProgramTemplate {}
 
 export interface IExercise {
   id: number;
@@ -83,16 +83,16 @@ export interface IWorkoutTemplate {
  * ACTIVE WORKOUT
  */
 
-
 export enum SetResult {
   NOT_DONE = "NOT_DONE",
   DONE = "DONE",
   FAIL = "FAIL"
 }
 
-export interface IActiveSetGroup {
-  setType?: SetType;
-  sets?: number;
+/// An ActiveSet represents ONE set of the currently active workout
+/// It's basically a temporary buffer for a LoggedSet
+export interface IActiveSet {
+  setType: SetType;
   reps?: number;
   restMinutes?: number; // TODO: parse this into a time unit somehow
   weight?: IWeight;
@@ -100,32 +100,27 @@ export interface IActiveSetGroup {
   result?: SetResult;
 }
 
-
 export interface IActiveExercise {
   exerciseId: number; // Foreign key for an IExercise
-  setGroups: IActiveSetGroup[]; // TODO: is it necessary to normalize this?
+  sets: IActiveSet[]; // TODO: is it necessary to normalize this?
 }
 
 /// Intermediate type that accepts a workoutTemplate and implements a builder for a LoggedWorkout
-export interface IActiveWorkout
-  extends Readonly<{
-    workoutId: number;
-    startTime: number;
-    workoutTemplateId?: number;
-    workoutName: string;
-    exercises: IActiveExercise[];
-    notes?: string;
-
-  }> { }
-
+export interface IActiveWorkout {
+  workoutId: number;
+  startTime: string; // ISO time
+  workoutTemplateId?: number;
+  workoutName: string;
+  exercises: IActiveExercise[];
+  notes?: string;
+}
 
 /**
  * LOGGED WORKOUT
  */
 
-export interface ILoggedSetGroup {
-  sets?: number;
-  setType?: SetType;
+export interface ILoggedSet {
+  setType: SetType;
   weight: IWeight;
   reps: number;
   rpe?: number;
@@ -134,14 +129,14 @@ export interface ILoggedSetGroup {
 }
 
 export interface ILoggedExercise {
-  exerciseId: number
-  setGroups: ILoggedSetGroup[];
+  exerciseId: number;
+  setGroups: ILoggedSet[];
 }
 
 export interface ILoggedWorkout {
-  id: number
-  startTime: number;
-  endTime: number
+  id: number;
+  startTime: Date;
+  endTime: Date;
   workoutTemplateId?: number;
   workoutName: string;
   exercises: ILoggedExercise[];

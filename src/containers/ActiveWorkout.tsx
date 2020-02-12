@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Grid,
@@ -18,11 +18,13 @@ import SetTable from "../components/workout/SetTable";
 import Set from "../components/workout/Set";
 import ExerciseList from "../components/workout/ExerciseList";
 import Exercise from "../components/workout/Exercise";
+import format from "format-duration";
 
 import { IWorkoutTemplates } from "../redux/modules/workoutTemplates";
 import { IExercises } from "../redux/modules/exercises";
-import { ISetGroupTemplateBase } from "../types";
-import { WeightUnit } from '../util/Weight';
+import { IActiveWorkout, IActiveSet } from "../types";
+import { setInterval } from "timers";
+import { setActiveWorkout } from "../redux/actions";
 
 const styles = (theme: Theme) => ({
   root: {
@@ -40,92 +42,156 @@ const styles = (theme: Theme) => ({
 interface WorkoutProps extends RouteComponentProps<{}> {
   workoutId: number;
   weightSettings: IWeightSettings;
+  workoutTemplateId?: number;
   workoutTemplates: IWorkoutTemplates;
+  activeWorkoutOptional: IActiveWorkout | null;
   exercises: IExercises;
+  setActiveWorkout: any;
 }
 
 type PropsWithStyles = WorkoutProps & WithStyles<"root" | "button" | "workout">;
-
-// TODO: Timer
 
 const ActiveWorkout = (props: PropsWithStyles) => {
   const {
     classes,
     history,
     workoutId,
+    workoutTemplateId,
     weightSettings,
     workoutTemplates,
-    exercises
+    exercises,
+    activeWorkoutOptional,
+    setActiveWorkout
   } = props;
 
-  // TODO: use a separate type for ActiveWorkout, not a workoutTemplate
-  const activeWorkout = workoutTemplates[workoutId];
+  const createNewWorkout = () => {
+    const newWorkout: IActiveWorkout = {
+      workoutId: workoutId,
+      startTime: new Date().toISOString(),
+      workoutTemplateId: workoutTemplateId,
+      workoutName: "Unnamed Workout",
+      exercises: []
+    };
+
+    if (
+      true
+      //workoutTemplateId &&
+      //workoutTemplates.hasOwnProperty(workoutTemplateId)
+    ) {
+      //const template = workoutTemplates[workoutTemplateId];
+      const template = workoutTemplates[1];
+      newWorkout.notes = template.notes;
+      newWorkout.workoutName = template.workoutName;
+
+      // Translate the template setGroups into sets for the active workout
+      newWorkout.exercises = template.exercises.map(e => ({
+        exerciseId: e.exerciseId,
+        sets: e.setGroups.flatMap(setGroup => {
+          const { sets, ...set } = setGroup;
+          return [...Array(setGroup.sets)].map((_, i) => set);
+        })
+      }));
+    }
+
+    setActiveWorkout(newWorkout);
+    return newWorkout;
+  };
+
+  // Get or create the active workout
+  const activeWorkout: IActiveWorkout =
+    activeWorkoutOptional != null ? activeWorkoutOptional : createNewWorkout();
+
+  // setup the timer
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const workoutStartTime = new Date(activeWorkout.startTime);
+  const timeElapsed = format(
+    currentTime.valueOf() - workoutStartTime.valueOf()
+  );
 
   // TODO use plate calculator
   const plateCalculator = new PlateCalculator({
     availablePlates: weightSettings.availablePlates
   });
 
-  const exerciseComponents = activeWorkout.exercises.map(
-    exerciseTemplate => {
-      const exercise = exercises[exerciseTemplate.exerciseId]
+  // Create the list of exercises from the current template
+  const exerciseComponents = activeWorkout.exercises.map(e => {
+    const { exerciseId, sets } = e;
 
-      return (
-        <Exercise name={exercise.name}>
-          <SetTable>
-            {exerciseTemplate.setGroups.flatMap((setGroup: ISetGroupTemplateBase) =>
-              [...Array(setGroup.sets)].map((_, i) => {
-                return <Set
-                  key={exercise.id + i}
-                  setType={setGroup.setType}
-                  reps={setGroup.reps}
-                  weight={setGroup.weight}
-                  unit={weightSettings.unit}
-                  rpe={setGroup.rpe}
-                  done={true}
-                />
-              })
-            )}
-          </SetTable>
-          <Button>Add Set</Button>
-        </Exercise>
-      )
-    }
-  );
+    const exercise = exercises[exerciseId];
 
-  // TODO: activeWorkout should have a start time. Refresh time elapsed from current time
-  const timeElapsed = "00:35:12";
+    return (
+      <Exercise name={exercise.name}>
+        <SetTable>
+          {sets.map((set: IActiveSet) => (
+            <Set
+              setType={set.setType}
+              reps={set.reps}
+              weight={set.weight}
+              unit={weightSettings.unit}
+              rpe={set.rpe}
+              result={set.result}
+            />
+          ))}
+        </SetTable>
+        <Button>Add Set</Button>
+      </Exercise>
+    );
+  });
 
   return (
     <Container>
       <Grid container direction="column" justify="center" alignItems="stretch">
-        <Button className={classes.button} onClick={() => history.goBack()}>
+        <Button
+          className={classes.button}
+          onClick={() => history.goBack()}
+          variant={"outlined"}
+        >
           Back
         </Button>
 
-        <Grid item>
-          <ActiveWorkoutHeader
-            title={activeWorkout.workoutName}
-            timeElapsed={timeElapsed}
-          />
-        </Grid>
+        <ActiveWorkoutHeader
+          title={activeWorkout.workoutName}
+          timeElapsed={timeElapsed}
+          updateTitle={(title: string) => {
+            activeWorkout.workoutName = title;
+            setActiveWorkout(activeWorkout);
+          }}
+        />
 
-        <Grid item>
-          <Notes notes={activeWorkout.notes} />
-        </Grid>
+        <Notes
+          notes={activeWorkout.notes}
+          updateNotes={(notes: string) => {
+            activeWorkout.notes = notes;
+            setActiveWorkout(activeWorkout);
+          }}
+        />
 
-        <Grid item>
-          <ExerciseList>
-            {exerciseComponents}
-            <Button>Add Exercise</Button>
-          </ExerciseList>
-        </Grid>
+        <ExerciseList>{exerciseComponents}</ExerciseList>
+
+        <Button variant={"outlined"}>Add Exercise (TODO)</Button>
 
         <Button
           className={classes.button}
-          onClick={() => console.log("Cancelling workout " + workoutId)}
+          onClick={() => {}}
+          variant={"outlined"}
         >
-          Cancel Workout
+          Cancel/Delete Workout
+        </Button>
+
+        <Button
+          className={classes.button}
+          onClick={() => {}}
+          variant={"outlined"}
+        >
+          End Workout
         </Button>
       </Grid>
     </Container>
@@ -133,15 +199,19 @@ const ActiveWorkout = (props: PropsWithStyles) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
+  activeWorkoutOptional: state.activeWorkout,
   weightSettings: state.weightSettings,
   workoutTemplates: state.workoutTemplates,
   exercises: state.exercises
 });
 
-const mapDispatchToProps = (dispatch: any, ownProps: any) => ({
-  toggleTodo: () => dispatch((ownProps.todoId))
-})
+const mapDispatchToProps = {
+  setActiveWorkout
+};
 
 export default withRouter(
-  connect(mapStateToProps)(withStyles(styles)(ActiveWorkout))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withStyles(styles)(ActiveWorkout))
 );

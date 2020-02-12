@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import { IWorkoutTemplates } from '../redux/modules/workoutTemplates';
+import { IWorkoutTemplates } from "../redux/modules/workoutTemplates";
 
 const styles = (theme: Theme) => ({
   root: {
@@ -32,9 +32,8 @@ const styles = (theme: Theme) => ({
   }
 });
 
-export interface WorkoutListProps extends RouteComponentProps<{
-}> {
-  workoutTemplates: IWorkoutTemplates
+export interface WorkoutListProps extends RouteComponentProps<{}> {
+  workoutTemplates: IWorkoutTemplates;
 }
 
 type PropsWithStyles = WorkoutListProps &
@@ -43,6 +42,7 @@ type PropsWithStyles = WorkoutListProps &
 // TODO: List all configured WorkoutTemplates, summarize each, and select an active workout from a template
 // TODO: onClickHandler for setActiveWorkout
 // TODO: setActiveWorkout converts the selected workoutTemplate to an IActiveWorkout
+// TODO: send workout template id via url parameters
 const WorkoutList = (props: PropsWithStyles) => {
   const { classes, workoutTemplates } = props;
   return (
