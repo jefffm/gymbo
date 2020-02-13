@@ -7,8 +7,8 @@ import {
   WithStyles,
   Checkbox
 } from "@material-ui/core";
-import { SetType, SetResult, ISet } from "../../types";
-import { IWeight, WeightUnit } from "../../util/Weight";
+import { SetResult, ISet } from "../../types";
+import { WeightUnit } from "../../util/Weight";
 
 const styles = (theme: Theme) => ({
   row: {

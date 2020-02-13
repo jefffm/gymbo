@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { AppState } from "../redux";
 import { connect } from "react-redux";
-import PlateCalculator from "../util/PlateCalculator";
+//import PlateCalculator from "../util/PlateCalculator";
 import { withRouter, RouteComponentProps } from "react-router";
 import { IWeightSettings } from "../redux/modules/weightSettings";
 import ActiveWorkoutHeader from "../components/workout/ActiveWorkoutHeader";
@@ -25,7 +25,6 @@ import { IExercises } from "../redux/modules/exercises";
 import { nullableId, IWorkout, ISet } from "../types";
 import { setInterval } from "timers";
 import { setActiveWorkoutId, addWorkouts } from "../redux/actions";
-import activeWorkoutId from "../redux/modules/activeWorkoutId";
 import { IWorkouts } from "../redux/modules/workouts";
 
 const styles = (theme: Theme) => ({
@@ -134,9 +133,9 @@ const ActiveWorkout = (props: PropsWithStyles) => {
     : "";
 
   // TODO use plate calculator
-  const plateCalculator = new PlateCalculator({
-    availablePlates: weightSettings.availablePlates
-  });
+  // const plateCalculator = new PlateCalculator({
+  //   availablePlates: weightSettings.availablePlates
+  // });
 
   // Create the list of exercises from the current template
   const exerciseComponents = activeWorkout.exercises?.map(e => {
