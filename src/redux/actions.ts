@@ -1,11 +1,11 @@
-import { IActiveWorkoutType } from "./modules/activeWorkout";
+import { nullableId } from "../types";
 export { add as addBars } from "./modules/bars";
 export { add as addExercises } from "./modules/exercises";
 export {
   add as addWorkoutTemplates,
   remove as removeWorkoutTemplates
 } from "./modules/workoutTemplates";
-export { add as addLoggedWorkouts } from "./modules/loggedWorkout";
+export { add as addWorkouts } from "./modules/workouts";
 
 export const ADD_ENTITIES = "ADD_ENTITIES";
 export const addEntities = (...entities: any) => ({
@@ -20,7 +20,7 @@ export const removeEntities = (...entityIds: number[]) => ({
 });
 
 export const SET_ACTIVE_WORKOUT = "SET_ACTIVE_WORKOUT";
-export const setActiveWorkout = (activeWorkout: IActiveWorkoutType) => ({
+export const setActiveWorkoutId = (activeWorkoutId: nullableId) => ({
   type: SET_ACTIVE_WORKOUT,
-  payload: activeWorkout
+  payload: activeWorkoutId
 });

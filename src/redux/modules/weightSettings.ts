@@ -11,8 +11,8 @@ export interface IWeightSettings
 const initialState: IWeightSettings = {
   unit: WeightUnit.POUNDS,
   availablePlates: {
-    100: 1,
-    45: 4,
+    100: 2,
+    45: 5,
     35: 0,
     25: 2,
     10: 2,
@@ -26,7 +26,6 @@ const weightSettings = (
   state: IWeightSettings = initialState,
   action: any
 ): IWeightSettings => {
-  // TODO: add plate, remove plate, update unit, update barWeight
   return state;
 };
 export default weightSettings;

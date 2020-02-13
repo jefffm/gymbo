@@ -22,9 +22,11 @@ import format from "format-duration";
 
 import { IWorkoutTemplates } from "../redux/modules/workoutTemplates";
 import { IExercises } from "../redux/modules/exercises";
-import { IActiveWorkout, IActiveSet } from "../types";
+import { nullableId, IWorkout, ISet } from "../types";
 import { setInterval } from "timers";
-import { setActiveWorkout } from "../redux/actions";
+import { setActiveWorkoutId, addWorkouts } from "../redux/actions";
+import activeWorkoutId from "../redux/modules/activeWorkoutId";
+import { IWorkouts } from "../redux/modules/workouts";
 
 const styles = (theme: Theme) => ({
   root: {
@@ -44,9 +46,11 @@ interface WorkoutProps extends RouteComponentProps<{}> {
   weightSettings: IWeightSettings;
   workoutTemplateId?: number;
   workoutTemplates: IWorkoutTemplates;
-  activeWorkoutOptional: IActiveWorkout | null;
+  activeWorkoutId: nullableId;
   exercises: IExercises;
-  setActiveWorkout: any;
+  workouts: IWorkouts;
+  setActiveWorkoutId(activeWorkoutId: nullableId): {};
+  addWorkouts(...workouts: IWorkout[]): {};
 }
 
 type PropsWithStyles = WorkoutProps & WithStyles<"root" | "button" | "workout">;
@@ -59,9 +63,11 @@ const ActiveWorkout = (props: PropsWithStyles) => {
     workoutTemplateId,
     weightSettings,
     workoutTemplates,
+    workouts,
     exercises,
-    activeWorkoutOptional,
-    setActiveWorkout
+    activeWorkoutId,
+    addWorkouts,
+    setActiveWorkoutId
   } = props;
 
   // TODO: Rework this whole thing to remove the use of the "ActiveWorkout" types and use a logged workout instead.
@@ -70,11 +76,11 @@ const ActiveWorkout = (props: PropsWithStyles) => {
   // A global "activeworkout" id can be used to ensure there's only one active
   // A workout is "complete" if it has an end time
   const createNewWorkout = () => {
-    const newWorkout: IActiveWorkout = {
-      workoutId: workoutId,
+    const newWorkout: IWorkout = {
+      id: workoutId,
       startTime: new Date().toISOString(),
       workoutTemplateId: workoutTemplateId,
-      workoutName: "Unnamed Workout",
+      name: "Unnamed Workout",
       exercises: []
     };
 
@@ -86,7 +92,7 @@ const ActiveWorkout = (props: PropsWithStyles) => {
       //const template = workoutTemplates[workoutTemplateId];
       const template = workoutTemplates[1];
       newWorkout.notes = template.notes;
-      newWorkout.workoutName = template.workoutName;
+      newWorkout.name = template.workoutName;
 
       // Translate the template setGroups into sets for the active workout
       newWorkout.exercises = template.exercises.map(e => ({
@@ -98,13 +104,16 @@ const ActiveWorkout = (props: PropsWithStyles) => {
       }));
     }
 
-    setActiveWorkout(newWorkout);
+    addWorkouts(newWorkout);
+    setActiveWorkoutId(newWorkout.id);
     return newWorkout;
   };
 
   // Get or create the active workout
-  const activeWorkout: IActiveWorkout =
-    activeWorkoutOptional != null ? activeWorkoutOptional : createNewWorkout();
+  const activeWorkout =
+    activeWorkoutId && workouts.hasOwnProperty(activeWorkoutId)
+      ? workouts[activeWorkoutId]
+      : createNewWorkout();
 
   // setup the timer
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -116,10 +125,13 @@ const ActiveWorkout = (props: PropsWithStyles) => {
     return () => clearInterval(interval);
   }, []);
 
-  const workoutStartTime = new Date(activeWorkout.startTime);
-  const timeElapsed = format(
-    currentTime.valueOf() - workoutStartTime.valueOf()
-  );
+  const timeElapsed: string = activeWorkout.startTime
+    ? (function() {
+        const startTime: string = activeWorkout.startTime;
+        const workoutStartTime = new Date(startTime);
+        return format(currentTime.valueOf() - workoutStartTime.valueOf());
+      })()
+    : "";
 
   // TODO use plate calculator
   const plateCalculator = new PlateCalculator({
@@ -127,7 +139,7 @@ const ActiveWorkout = (props: PropsWithStyles) => {
   });
 
   // Create the list of exercises from the current template
-  const exerciseComponents = activeWorkout.exercises.map(e => {
+  const exerciseComponents = activeWorkout.exercises?.map(e => {
     const { exerciseId, sets } = e;
 
     const exercise = exercises[exerciseId];
@@ -135,15 +147,8 @@ const ActiveWorkout = (props: PropsWithStyles) => {
     return (
       <Exercise name={exercise.name}>
         <SetTable>
-          {sets.map((set: IActiveSet) => (
-            <Set
-              setType={set.setType}
-              reps={set.reps}
-              weight={set.weight}
-              unit={weightSettings.unit}
-              rpe={set.rpe}
-              result={set.result}
-            />
+          {sets.map((set: ISet) => (
+            <Set unit={weightSettings.unit} set={set} />
           ))}
         </SetTable>
         <Button>Add Set</Button>
@@ -163,11 +168,11 @@ const ActiveWorkout = (props: PropsWithStyles) => {
         </Button>
 
         <ActiveWorkoutHeader
-          title={activeWorkout.workoutName}
+          title={activeWorkout.name ? activeWorkout.name : ""}
           timeElapsed={timeElapsed}
           updateTitle={(title: string) => {
-            activeWorkout.workoutName = title;
-            setActiveWorkout(activeWorkout);
+            activeWorkout.name = title;
+            addWorkouts(activeWorkout);
           }}
         />
 
@@ -175,28 +180,34 @@ const ActiveWorkout = (props: PropsWithStyles) => {
           notes={activeWorkout.notes}
           updateNotes={(notes: string) => {
             activeWorkout.notes = notes;
-            setActiveWorkout(activeWorkout);
+            addWorkouts(activeWorkout);
           }}
         />
 
         <ExerciseList>{exerciseComponents}</ExerciseList>
 
-        <Button variant={"outlined"}>Add Exercise (TODO)</Button>
+        <Button
+          className={classes.button}
+          variant={"outlined"}
+          onClick={() => {}}
+        >
+          Add Exercise (TODO)
+        </Button>
 
         <Button
           className={classes.button}
-          onClick={() => {}}
           variant={"outlined"}
+          onClick={() => {}}
         >
           Cancel/Delete Workout
         </Button>
 
         <Button
           className={classes.button}
-          onClick={() => {}}
           variant={"outlined"}
+          onClick={() => {}}
         >
-          End Workout
+          Finish Workout
         </Button>
       </Grid>
     </Container>
@@ -204,14 +215,16 @@ const ActiveWorkout = (props: PropsWithStyles) => {
 };
 
 const mapStateToProps = (state: AppState) => ({
-  activeWorkoutOptional: state.activeWorkout,
+  activeWorkoutId: state.activeWorkoutId,
   weightSettings: state.weightSettings,
   workoutTemplates: state.workoutTemplates,
+  workouts: state.workouts,
   exercises: state.exercises
 });
 
 const mapDispatchToProps = {
-  setActiveWorkout
+  addWorkouts,
+  setActiveWorkoutId
 };
 
 export default withRouter(

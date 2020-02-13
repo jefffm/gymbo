@@ -1,6 +1,4 @@
 import { IBar, BarType } from "../../types";
-import { denormalize } from "normalizr";
-import * as Schema from "../../schema";
 import { ADD_ENTITIES, addEntities } from "../actions";
 import { Pounds, Kilos } from "../../util/Weight";
 
@@ -39,7 +37,7 @@ const bars = (state: IBars = initialState, action: any): IBars => {
 };
 export default bars;
 
-export const add = (bars: IBars) => addEntities({ [STATE_KEY]: bars });
-
-export const selectHydrated = (state: IBars, id: number) =>
-  denormalize(id, Schema.bar, state);
+export const add = (...bars: IBar[]) =>
+  addEntities({
+    [STATE_KEY]: Object.assign({}, ...bars.map(b => ({ [b.id]: b })))
+  });

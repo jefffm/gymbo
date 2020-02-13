@@ -5,15 +5,13 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
-import activeWorkout, {
+import activeWorkoutId, {
   STATE_KEY as ACTIVE_WORKOUT_STATE_KEY
-} from "./modules/activeWorkout";
+} from "./modules/activeWorkoutId";
 import weightSettings, {
   STATE_KEY as WEIGHT_SETTINGS_STATE_KEY
 } from "./modules/weightSettings";
-import loggedWorkouts, {
-  STATE_KEY as LOGGED_WORKOUT_STATE_KEY
-} from "./modules/loggedWorkout";
+import workouts, { STATE_KEY as WORKOUT_STATE_KEY } from "./modules/workouts";
 import exercises, {
   STATE_KEY as EXERCISE_STATE_KEY
 } from "./modules/exercises";
@@ -23,11 +21,11 @@ import workoutTemplates, {
 import bars, { STATE_KEY as BARS_STATE_KEY } from "./modules/bars";
 
 export const rootReducer = combineReducers({
-  [ACTIVE_WORKOUT_STATE_KEY]: activeWorkout,
+  [ACTIVE_WORKOUT_STATE_KEY]: activeWorkoutId,
   [WEIGHT_SETTINGS_STATE_KEY]: weightSettings,
   [WORKOUT_TEMPLATE_STATE_KEY]: workoutTemplates,
   [EXERCISE_STATE_KEY]: exercises,
-  [LOGGED_WORKOUT_STATE_KEY]: loggedWorkouts,
+  [WORKOUT_STATE_KEY]: workouts,
   [BARS_STATE_KEY]: bars
 });
 

@@ -1,5 +1,7 @@
 import { IWeight } from "./util/Weight";
 
+export type nullableId = number | null;
+
 /***
 
 ProgramTemplate (tbd) -> WorkoutTemplate -> ExerciseTemplate -> SetGroupTemplate
@@ -91,7 +93,8 @@ export interface ISet {
   reps?: number;
   rpe?: number;
   restMinutes?: number;
-  timeCompleted?: number; // timestamp?
+  result?: SetResult;
+  timeCompleted?: number;
 }
 
 export interface IExerciseSets {
@@ -101,10 +104,10 @@ export interface IExerciseSets {
 
 export interface IWorkout {
   id: number;
-  startTime: Date;
-  endTime: Date;
+  startTime?: string;
+  endTime?: string;
   workoutTemplateId?: number;
-  workoutName: string;
-  exercises: IExerciseSets[];
+  name?: string;
+  exercises?: IExerciseSets[];
   notes?: string;
 }

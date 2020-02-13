@@ -7,7 +7,7 @@ import {
   WithStyles,
   Checkbox
 } from "@material-ui/core";
-import { SetType, SetResult } from "../../types";
+import { SetType, SetResult, ISet } from "../../types";
 import { IWeight, WeightUnit } from "../../util/Weight";
 
 const styles = (theme: Theme) => ({
@@ -29,15 +29,13 @@ const styles = (theme: Theme) => ({
 
 interface SetProps {
   unit: WeightUnit;
-  setType: SetType;
-  reps?: number;
-  weight?: IWeight;
-  rpe?: number;
-  result?: SetResult;
+  set: ISet;
 }
 
 function Set(props: SetProps & WithStyles<"row" | "input" | "divider">) {
-  const { classes, setType, weight, reps, rpe, result } = props;
+  const { classes, set } = props;
+  const { setType, weight, reps, rpe, result } = set;
+
   return (
     <Paper component="form" className={classes.row}>
       <TextField

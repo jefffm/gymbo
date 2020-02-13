@@ -75,8 +75,13 @@ const workoutTemplate = (
 };
 export default workoutTemplate;
 
-export const add = (workoutTemplates: IWorkoutTemplates) =>
-  addEntities({ [STATE_KEY]: workoutTemplates });
+export const add = (...workoutTemplates: IWorkoutTemplate[]) =>
+  addEntities({
+    [STATE_KEY]: Object.assign(
+      {},
+      ...workoutTemplates.map(w => ({ [w.id]: w }))
+    )
+  });
 
 export const remove = (...ids: number[]) => removeEntities(...ids);
 
