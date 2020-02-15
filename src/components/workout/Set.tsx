@@ -34,20 +34,20 @@ interface SetProps {
 
 function Set(props: SetProps & WithStyles<"row" | "input" | "divider">) {
   const { classes, set } = props;
-  const { setType, weight, reps, rpe, result } = set;
+  const { id, setType, weight, reps, rpe, result } = set;
 
   return (
-    <Paper component="form" className={classes.row}>
+    <Paper key={id} component="form" className={classes.row}>
       <TextField
+        key={id + ":0"}
         className={classes.input}
-        id="setType"
-        select
         value={setType}
         variant="outlined"
         size="small"
       ></TextField>
 
       <TextField
+        key={id + ":1"}
         className={classes.input}
         defaultValue={weight}
         variant="outlined"
@@ -57,6 +57,7 @@ function Set(props: SetProps & WithStyles<"row" | "input" | "divider">) {
       {"x"}
 
       <TextField
+        key={id + ":2"}
         className={classes.input}
         defaultValue={reps}
         variant="outlined"
@@ -66,6 +67,7 @@ function Set(props: SetProps & WithStyles<"row" | "input" | "divider">) {
       {"@"}
 
       <TextField
+        key={id + ":3"}
         className={classes.input}
         defaultValue={rpe}
         variant="outlined"
@@ -73,6 +75,7 @@ function Set(props: SetProps & WithStyles<"row" | "input" | "divider">) {
       />
 
       <Checkbox
+        key={id + ":4"}
         checked={result === SetResult.DONE}
         onChange={() => {
           console.log("marking set as done");

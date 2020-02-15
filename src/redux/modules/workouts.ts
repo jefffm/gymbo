@@ -1,5 +1,5 @@
 import { IWorkout } from "../../types";
-import { ADD_ENTITIES, addEntities } from "../actions";
+import { ADD_ENTITY, addEntity } from "../actions";
 
 export const STATE_KEY = "workouts";
 
@@ -10,7 +10,7 @@ export interface IWorkouts
 
 const workouts = (state: IWorkouts = {}, action: any): IWorkouts => {
   switch (action.type) {
-    case ADD_ENTITIES: {
+    case ADD_ENTITY: {
       return {
         ...state,
         ...action.payload.workouts
@@ -24,6 +24,6 @@ const workouts = (state: IWorkouts = {}, action: any): IWorkouts => {
 export default workouts;
 
 export const add = (...workouts: IWorkout[]) =>
-  addEntities({
+  addEntity({
     [STATE_KEY]: Object.assign({}, ...workouts.map(w => ({ [w.id]: w })))
   });

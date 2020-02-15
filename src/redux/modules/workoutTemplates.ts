@@ -2,8 +2,8 @@ import { IWorkoutTemplate, SetType } from "../../types";
 import * as Schema from "../../schema";
 import { denormalize } from "normalizr";
 import {
-  ADD_ENTITIES,
-  addEntities,
+  ADD_ENTITY,
+  addEntity,
   removeEntities,
   REMOVE_ENTITIES
 } from "../actions";
@@ -28,19 +28,19 @@ const initialState: IWorkoutTemplates = {
             setType: SetType.NORMAL,
             reps: 5,
             rpe: 6,
-            sets: 1
+            numSets: 1
           },
           {
             setType: SetType.NORMAL,
             reps: 5,
             rpe: 7,
-            sets: 1
+            numSets: 1
           },
           {
             setType: SetType.NORMAL,
             reps: 5,
             rpe: 8,
-            sets: 3
+            numSets: 1
           }
         ]
       }
@@ -53,7 +53,7 @@ const workoutTemplate = (
   action: any
 ): IWorkoutTemplates => {
   switch (action.type) {
-    case ADD_ENTITIES: {
+    case ADD_ENTITY: {
       return {
         ...state,
         ...action.payload.workoutTemplates
@@ -76,7 +76,7 @@ const workoutTemplate = (
 export default workoutTemplate;
 
 export const add = (...workoutTemplates: IWorkoutTemplate[]) =>
-  addEntities({
+  addEntity({
     [STATE_KEY]: Object.assign(
       {},
       ...workoutTemplates.map(w => ({ [w.id]: w }))

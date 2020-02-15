@@ -1,5 +1,5 @@
 import { IExercise, ExerciseType } from "../../types";
-import { ADD_ENTITIES, addEntities } from "../actions";
+import { ADD_ENTITY, addEntity } from "../actions";
 
 export const STATE_KEY = "exercises";
 
@@ -40,7 +40,7 @@ const exercises = (
   action: any
 ): IExercises => {
   switch (action.type) {
-    case ADD_ENTITIES: {
+    case ADD_ENTITY: {
       return {
         ...state,
         ...action.payload.exercises
@@ -54,6 +54,6 @@ const exercises = (
 export default exercises;
 
 export const add = (...exercises: IExercise[]) =>
-  addEntities({
+  addEntity({
     [STATE_KEY]: Object.assign({}, ...exercises.map(e => ({ [e.id]: e })))
   });

@@ -62,7 +62,7 @@ export interface IExercise {
 /// A group of sets. "3 sets of 175 lbs for 5 reps" is a set group because it is actually three sets.
 export interface ISetGroupTemplateBase {
   setType: SetType;
-  sets: number;
+  numSets: number;
   reps: number;
   restMinutes?: number; // TODO: parse this into a time unit somehow
   weight?: IWeight;
@@ -88,6 +88,7 @@ export enum SetResult {
 }
 
 export interface ISet {
+  id: string;
   setType?: SetType;
   weight?: IWeight;
   reps?: number;
@@ -102,8 +103,15 @@ export interface IExerciseSets {
   sets: ISet[];
 }
 
+export enum WorkoutState {
+  CREATED,
+  STARTED,
+  COMPLETED
+}
+
 export interface IWorkout {
   id: number;
+  state: WorkoutState;
   startTime?: string;
   endTime?: string;
   workoutTemplateId?: number;

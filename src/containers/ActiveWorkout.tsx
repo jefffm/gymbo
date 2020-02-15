@@ -22,10 +22,11 @@ import format from "format-duration";
 
 import { IWorkoutTemplates } from "../redux/modules/workoutTemplates";
 import { IExercises } from "../redux/modules/exercises";
-import { nullableId, IWorkout, ISet } from "../types";
+import { nullableId, IWorkout, ISet, WorkoutState } from "../types";
 import { setInterval } from "timers";
 import { setActiveWorkoutId, addWorkouts } from "../redux/actions";
 import { IWorkouts } from "../redux/modules/workouts";
+import { typestate } from "typestate";
 
 const styles = (theme: Theme) => ({
   root: {
@@ -54,6 +55,34 @@ interface WorkoutProps extends RouteComponentProps<{}> {
 
 type PropsWithStyles = WorkoutProps & WithStyles<"root" | "button" | "workout">;
 
+const createStateMachine = (workout: IWorkout) => {
+  var fsm = new typestate.FiniteStateMachine<WorkoutState>(workout.state);
+
+  fsm.from(WorkoutState.CREATED).to(WorkoutState.STARTED);
+  fsm.from(WorkoutState.STARTED).to(WorkoutState.COMPLETED);
+
+  fsm.on(WorkoutState.STARTED, (from?: WorkoutState) => {
+    // TODO: start the timer and make the elapsed time visible
+    workout.startTime = new Date().toISOString();
+  });
+  fsm.on(WorkoutState.COMPLETED, (from?: WorkoutState) => {
+    // TODO: stop the timer
+    // TODO: display start and end time + date + duration
+    workout.endTime = new Date().toISOString();
+  });
+
+  return fsm;
+};
+
+const getTimeElapsed = (workout: IWorkout, currentTime: Date): string =>
+  workout.startTime
+    ? (function() {
+        const startTime: string = workout.startTime;
+        const workoutStartTime = new Date(startTime);
+        return format(currentTime.valueOf() - workoutStartTime.valueOf());
+      })()
+    : "";
+
 const ActiveWorkout = (props: PropsWithStyles) => {
   const {
     classes,
@@ -75,9 +104,10 @@ const ActiveWorkout = (props: PropsWithStyles) => {
   // A global "activeworkout" id can be used to ensure there's only one active
   // A workout is "complete" if it has an end time
   const createNewWorkout = () => {
+    console.log("creating new workout with id " + workoutId);
     const newWorkout: IWorkout = {
       id: workoutId,
-      startTime: new Date().toISOString(),
+      state: WorkoutState.CREATED,
       workoutTemplateId: workoutTemplateId,
       name: "Unnamed Workout",
       exercises: []
@@ -94,11 +124,13 @@ const ActiveWorkout = (props: PropsWithStyles) => {
       newWorkout.name = template.workoutName;
 
       // Translate the template setGroups into sets for the active workout
-      newWorkout.exercises = template.exercises.map(e => ({
+      newWorkout.exercises = template.exercises.map((e, exerciseNum) => ({
         exerciseId: e.exerciseId,
         sets: e.setGroups.flatMap(setGroup => {
-          const { sets, ...set } = setGroup;
-          return [...Array(setGroup.sets)].map((_, i) => set);
+          const { numSets, ...set } = setGroup;
+          return [...Array(numSets)].map(
+            (_, i): ISet => ({ id: exerciseNum + ":" + i, ...set })
+          );
         })
       }));
     }
@@ -124,13 +156,8 @@ const ActiveWorkout = (props: PropsWithStyles) => {
     return () => clearInterval(interval);
   }, []);
 
-  const timeElapsed: string = activeWorkout.startTime
-    ? (function() {
-        const startTime: string = activeWorkout.startTime;
-        const workoutStartTime = new Date(startTime);
-        return format(currentTime.valueOf() - workoutStartTime.valueOf());
-      })()
-    : "";
+  const timeElapsed = getTimeElapsed(activeWorkout, currentTime);
+  const fsm = createStateMachine(activeWorkout);
 
   // TODO use plate calculator
   // const plateCalculator = new PlateCalculator({
@@ -183,6 +210,19 @@ const ActiveWorkout = (props: PropsWithStyles) => {
           }}
         />
 
+        <Button
+          hidden={fsm.is(WorkoutState.CREATED)}
+          className={classes.button}
+          variant={"outlined"}
+          onClick={() => {
+            if (fsm.canGo(WorkoutState.STARTED)) {
+              fsm.go(WorkoutState.STARTED);
+            }
+          }}
+        >
+          Start Workout
+        </Button>
+
         <ExerciseList>{exerciseComponents}</ExerciseList>
 
         <Button
@@ -196,15 +236,23 @@ const ActiveWorkout = (props: PropsWithStyles) => {
         <Button
           className={classes.button}
           variant={"outlined"}
-          onClick={() => {}}
+          onClick={() => {
+            // prompt for confirmation
+            // delete the state and redirect to workouts
+          }}
         >
           Cancel/Delete Workout
         </Button>
 
         <Button
+          hidden={!fsm.is(WorkoutState.STARTED)}
           className={classes.button}
           variant={"outlined"}
-          onClick={() => {}}
+          onClick={() => {
+            if (fsm.canGo(WorkoutState.COMPLETED)) {
+              fsm.go(WorkoutState.COMPLETED);
+            }
+          }}
         >
           Finish Workout
         </Button>

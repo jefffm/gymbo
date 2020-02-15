@@ -7,10 +7,10 @@ export {
 } from "./modules/workoutTemplates";
 export { add as addWorkouts } from "./modules/workouts";
 
-export const ADD_ENTITIES = "ADD_ENTITIES";
-export const addEntities = (...entities: any) => ({
-  type: ADD_ENTITIES,
-  payload: entities
+export const ADD_ENTITY = "ADD_ENTITY";
+export const addEntity = (entity: any) => ({
+  type: ADD_ENTITY,
+  payload: entity
 });
 
 export const REMOVE_ENTITIES = "REMOVE_ENTITIES";

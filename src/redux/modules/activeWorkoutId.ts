@@ -3,7 +3,7 @@ import { nullableId } from "../../types";
 
 export const STATE_KEY = "activeWorkoutId";
 
-const activeWorkoutId = (state: nullableId, action: any): nullableId => {
+const activeWorkoutId = (state: nullableId = null, action: any): nullableId => {
   switch (action.type) {
     case SET_ACTIVE_WORKOUT: {
       return action.payload;

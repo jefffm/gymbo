@@ -1,5 +1,5 @@
 import { IBar, BarType } from "../../types";
-import { ADD_ENTITIES, addEntities } from "../actions";
+import { ADD_ENTITY, addEntity } from "../actions";
 import { Pounds, Kilos } from "../../util/Weight";
 
 export const STATE_KEY = "bars";
@@ -24,7 +24,7 @@ const initialState: IBars = {
 
 const bars = (state: IBars = initialState, action: any): IBars => {
   switch (action.type) {
-    case ADD_ENTITIES: {
+    case ADD_ENTITY: {
       return {
         ...state,
         ...action.payload.bars
@@ -38,6 +38,6 @@ const bars = (state: IBars = initialState, action: any): IBars => {
 export default bars;
 
 export const add = (...bars: IBar[]) =>
-  addEntities({
+  addEntity({
     [STATE_KEY]: Object.assign({}, ...bars.map(b => ({ [b.id]: b })))
   });
