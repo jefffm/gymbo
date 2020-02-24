@@ -55,6 +55,15 @@ interface WorkoutProps extends RouteComponentProps<{}> {
 
 type PropsWithStyles = WorkoutProps & WithStyles<"root" | "button" | "workout">;
 
+/**
+ * Manage the state of the selected workout
+ *
+ * Workouts can be created, started, or completed.
+ *
+ * Currently this just manages the timer.
+ *
+ * @param workout the currently selected workout
+ */
 const createStateMachine = (workout: IWorkout) => {
   var fsm = new typestate.FiniteStateMachine<WorkoutState>(workout.state);
 
@@ -146,6 +155,7 @@ const ActiveWorkout = (props: PropsWithStyles) => {
       ? workouts[activeWorkoutId]
       : createNewWorkout();
 
+  // TODO: move the timer state into the Active Workout selector. The Active Workout item will need to be more than just an optional ID.
   // setup the timer
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -165,22 +175,37 @@ const ActiveWorkout = (props: PropsWithStyles) => {
   // });
 
   // Create the list of exercises from the current template
-  const exerciseComponents = activeWorkout.exercises?.map(e => {
-    const { exerciseId, sets } = e;
+  const exerciseComponents = activeWorkout.exercises?.map(
+    (e, exerciseIndex) => {
+      const { exerciseId, sets } = e;
 
-    const exercise = exercises[exerciseId];
+      const exercise = exercises[exerciseId];
 
-    return (
-      <Exercise name={exercise.name}>
-        <SetTable>
-          {sets.map((set: ISet) => (
-            <Set unit={weightSettings.unit} set={set} />
-          ))}
-        </SetTable>
-        <Button>Add Set</Button>
-      </Exercise>
-    );
-  });
+      return (
+        <Exercise name={exercise.name}>
+          <SetTable>
+            {sets.map((set: ISet, setIndex: number) => (
+              <Set
+                unit={weightSettings.unit}
+                set={set}
+                updateSet={(set: ISet) => {
+                  if (activeWorkout.exercises) {
+                    activeWorkout!.exercises[exerciseIndex].sets[
+                      setIndex
+                    ] = set;
+                    addWorkouts(activeWorkout);
+                  }
+                }}
+              />
+            ))}
+          </SetTable>
+          <Button>Add Set</Button>
+        </Exercise>
+      );
+    }
+  );
+
+  // TODO: add title and add notes update the whole workout. Should this be more fine-grained?
 
   return (
     <Container>

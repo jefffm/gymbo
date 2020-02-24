@@ -30,10 +30,11 @@ const styles = (theme: Theme) => ({
 interface SetProps {
   unit: WeightUnit;
   set: ISet;
+  updateSet(set: ISet): void;
 }
 
 function Set(props: SetProps & WithStyles<"row" | "input" | "divider">) {
-  const { classes, set } = props;
+  const { classes, set, updateSet } = props;
   const { id, setType, weight, reps, rpe, result } = set;
 
   return (
@@ -78,7 +79,14 @@ function Set(props: SetProps & WithStyles<"row" | "input" | "divider">) {
         key={id + ":4"}
         checked={result === SetResult.DONE}
         onChange={() => {
-          console.log("marking set as done");
+          // TODO: implement fail
+          if (result === SetResult.DONE) {
+            set.result = SetResult.NOT_DONE;
+          } else {
+            set.result = SetResult.DONE;
+          }
+
+          updateSet(set);
         }}
       />
     </Paper>
